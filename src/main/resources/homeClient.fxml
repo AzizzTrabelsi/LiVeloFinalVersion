@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -24,7 +27,7 @@
                                 <Font name="Bodoni MT" size="20.0" />
                             </font>
                         </Text>
-                        <ImageView fitHeight="39.0" fitWidth="26.0" layoutX="277.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="logoutlogo" fitHeight="39.0" fitWidth="26.0" layoutX="277.0" layoutY="9.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@image/logout.png" />
                             </image>
@@ -32,16 +35,16 @@
                         <ComboBox fx:id="combo" layoutX="6.0" layoutY="7.0" onAction="#handleCategorySelection" prefHeight="26.0" prefWidth="163.0" promptText="categories" />
                     </children>
                 </AnchorPane>
-            <ImageView fx:id="imBills" fitHeight="43.0" fitWidth="54.0" layoutX="724.0" layoutY="11.0" onMouseClicked="#navigateToBillsClient" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@image/bill.png" />
-               </image>
-            </ImageView>
-            <Text fill="#398c3e" layoutX="635.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View your bills">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Text>
+                <ImageView fx:id="imBills" fitHeight="43.0" fitWidth="54.0" layoutX="724.0" layoutY="11.0" onMouseClicked="#navigateToBillsClient" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@image/bill.png" />
+                    </image>
+                </ImageView>
+                <Text fill="#398c3e" layoutX="635.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View your bills">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Text>
             </children>
         </AnchorPane>
     </top>
@@ -58,16 +61,19 @@
                         <Font name="Bodoni MT" size="22.0" />
                     </font>
                 </Text>
-                <Text fill="#6562629e" layoutX="350.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your request is in the process of being treated in English">
+                <Label fx:id="nomUtilisateurLabel" layoutX="498.0" layoutY="102.0" prefHeight="22.0" prefWidth="95.0" text="nomcomplet">
                     <font>
-                        <Font name="Bodoni MT" size="17.0" />
+                        <Font name="Georgia" size="15.0" />
                     </font>
-                </Text>
-                <ImageView fitHeight="336.0" fitWidth="689.0" layoutX="273.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@image/5302.jpg" />
-                    </image>
-                </ImageView>
+                </Label>
+                <AnchorPane layoutX="184.0" layoutY="166.0" prefHeight="367.0" prefWidth="734.0">
+                    <children>
+                        <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="600.0" layoutX="67.0" layoutY="5.0" />
+                        <Button layoutX="14.0" layoutY="97.0" mnemonicParsing="false" onAction="#playVideo" text="play" />
+                        <Button layoutX="14.0" layoutY="141.0" mnemonicParsing="false" onAction="#stopVideo" text="stop" />
+                        <Button layoutX="14.0" layoutY="190.0" mnemonicParsing="false" onAction="#pauseVideo" text="pause" />
+                    </children>
+                </AnchorPane>
             </children>
         </AnchorPane>
     </center>

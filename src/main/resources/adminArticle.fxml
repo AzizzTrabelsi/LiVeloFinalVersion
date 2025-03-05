@@ -143,9 +143,7 @@
         <AnchorPane prefHeight="610.0" prefWidth="815.0" style="-fx-background-color: #f8f8f8; -fx-border-width: 0;" BorderPane.alignment="CENTER">
             <children>
                 <TextField fx:id="anSearch" layoutX="22.0" layoutY="13.0" prefHeight="41.0" prefWidth="749.0" promptText="Search by name" style="-fx-background-color: transparent; -fx-border-color: #398c3e; -fx-border-width: 0px 0px 2px 0px;" />
-                <ImageView fx:id="idadd" fitHeight="31.0" fitWidth="22.0" layoutX="742.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true"
-                           onMouseClicked="#handleAddArticleClick"
-                >
+                <ImageView fx:id="idadd" fitHeight="31.0" fitWidth="22.0" layoutX="742.0" layoutY="23.0" onMouseClicked="#handleAddArticleClick" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@image/plus.png" />
                     </image>
@@ -161,32 +159,32 @@
                                             <children>
                                                 <HBox fx:id="headerhb" prefHeight="28.0" prefWidth="725.0" style="-fx-background-color: #398c3e;">
                                                     <children>
-                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="112.0" text="id category">
+                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="77.0" text="id category">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="97.0" text="url image">
+                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="102.0" text="Image">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" layoutX="182.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="nom ">
+                                                        <Label alignment="TOP_LEFT" layoutX="182.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="Name">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" layoutX="220.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="prix ">
+                                                        <Label alignment="TOP_LEFT" layoutX="220.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="Price/Dt">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" layoutX="282.0" layoutY="10.0" prefHeight="18.0" prefWidth="94.0" text="description">
+                                                        <Label alignment="TOP_LEFT" layoutX="282.0" layoutY="10.0" prefHeight="18.0" prefWidth="94.0" text="Description">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" layoutX="344.0" layoutY="10.0" prefHeight="18.0" prefWidth="94.0" text="statut">
+                                                        <Label alignment="TOP_LEFT" layoutX="344.0" layoutY="10.0" prefHeight="18.0" prefWidth="94.0" text="status">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
@@ -206,16 +204,12 @@
                                                 </HBox>
                                                 <HBox fx:id="hbHedha" prefHeight="32.0" prefWidth="765.0">
                                                     <children>
-                                                        <Label fx:id="idcat" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="74.0" text="idcategorie">
+                                                        <Label fx:id="idcat" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="67.0" text="idcategorie">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label fx:id="idim" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="112.0" text="urlimage">
-                                                            <font>
-                                                                <Font name="Bodoni MT" size="14.0" />
-                                                            </font>
-                                                        </Label>
+                                          <ImageView fitHeight="125.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true" />
                                                         <Label fx:id="idnom" alignment="TOP_LEFT" layoutX="168.0" layoutY="10.0" prefHeight="18.0" prefWidth="70.0" text="nom">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />

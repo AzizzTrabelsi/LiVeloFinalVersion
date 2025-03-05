@@ -48,6 +48,31 @@ public class CrudArticle implements IServiceCrud<Article> {
         }
         return articles;
     }
+    public void incrementNbViews(int id_article) {
+        String query = "UPDATE article SET nbViews = nbViews + 1 WHERE id_article = ?";
+
+        // Utilisation de try-with-resources pour s'assurer que la connexion et la statement sont fermées après utilisation
+        try ( // Connexion à la base de données
+             PreparedStatement statement = conn.prepareStatement(query)) {  // Préparer la requête
+
+            // Passer l'ID de l'article dans la requête
+            statement.setInt(1, id_article);
+
+            // Exécuter la requête de mise à jour
+            int rowsUpdated = statement.executeUpdate();  // Mettre à jour la table
+
+            // Vérifier si la mise à jour a été effectuée
+            if (rowsUpdated > 0) {
+                System.out.println("Le nombre de vues a été mis à jour pour l'article avec l'ID : " + id_article);
+            } else {
+                System.err.println("Aucun article trouvé avec l'ID : " + id_article);
+            }
+        } catch (SQLException e) {
+            // Afficher une erreur en cas d'exception
+            e.printStackTrace();
+        }
+    }
+
 
 
     @Override
@@ -443,6 +468,35 @@ public class CrudArticle implements IServiceCrud<Article> {
 
         return articles;
     }
+    public List<Article> getArticlesByStatusAndUser(String status, int userId) {
+        List<Article> articles = new ArrayList<>();
+        String query = "SELECT * FROM article WHERE statut = ? AND created_by = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, status);
+            stmt.setInt(2, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Article article = new Article();
+                    article.setNom(rs.getString("nom"));
+                    article.setQuantite(rs.getInt("quantite"));
+                    String statutString = rs.getString("statut");  // Changer "resultSet" en "rs"
+                    System.out.println("Statut: " + statutString);
+
+                    statut_article statut;
+                    try {
+                        statut = statut_article.valueOf(statutString.toUpperCase());
+                    } catch (IllegalArgumentException e) {
+                        statut = statut_article.on_stock;
+                    }
+                    article.setStatut(statut); // Assurer que le statut est bien attribué à l'article
+                    articles.add(article);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
     public List<Article> getAllByPartner(int idPartner){
         List<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM `article` WHERE `created_by` = ?";
@@ -470,6 +524,7 @@ public class CrudArticle implements IServiceCrud<Article> {
         }
         return articles;
     }
+
 
 
 }

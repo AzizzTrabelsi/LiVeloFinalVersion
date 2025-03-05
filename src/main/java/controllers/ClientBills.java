@@ -1,11 +1,16 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import models.Facture;
 import net.minidev.json.JSONObject;
 import services.Authentification;
@@ -13,6 +18,7 @@ import services.CrudFacture;
 import models.type_paiement;
 import services.PDFservice;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID; // For generating a unique token
@@ -82,6 +88,21 @@ public class ClientBills {
             }
             return -1;
         }
+    @FXML
+    private void navigateToHomeClient(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeClient.fxml"));
+            Scene signInScene = new Scene(loader.load());
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(signInScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading login.fxml.");
+        }
+    }
         private void addBillToDisplay () {
             int userId = getUserIDFromToken();
             if (userId == -1) {

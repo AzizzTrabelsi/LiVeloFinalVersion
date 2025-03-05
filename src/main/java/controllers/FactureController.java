@@ -51,6 +51,7 @@ public class FactureController {
         } else if (onlineCheckBox.isSelected()) {
             type = "ONLINE";
             ouvrirPagePaiement(); // Ouvre une page pour le paiement en ligne
+            enregistrerFacture(type);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Veuillez choisir un mode de paiement", ButtonType.OK);
             alert.showAndWait();
