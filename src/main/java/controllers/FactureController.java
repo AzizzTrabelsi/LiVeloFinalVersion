@@ -1,5 +1,6 @@
 package controllers;
 
+import com.stripe.exception.StripeException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 import models.Facture;
 import models.type_paiement;
 import services.CrudFacture;
+import services.StripeService;
 
 import java.awt.*;
 import java.io.IOException;
@@ -70,14 +72,29 @@ public class FactureController {
         afficherFacture();
     }
 
-    private void ouvrirPagePaiement() {
+   /* private void ouvrirPagePaiement() {
         try {
             String urlPaiement = "https://buy.stripe.com/test_4gw3cP8TtdtSa80cMM"; // 🔥 LIEN TEST STRIPE
             Desktop.getDesktop().browse(new URI(urlPaiement));
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-    }
+    }*/
+   private void ouvrirPagePaiement() {
+       try {
+           StripeService stripeService = new StripeService();
+           String urlPaiement = stripeService.createCheckoutSession(commandeId, Float.parseFloat(montantLabel.getText().replace(" TND", "")));
+
+           if (urlPaiement != null && !urlPaiement.isEmpty()) {
+               Desktop.getDesktop().browse(new URI(urlPaiement));
+           } else {
+               System.out.println("Erreur : URL de paiement non générée.");
+           }
+       } catch (IOException | URISyntaxException | StripeException e) {
+           e.printStackTrace();
+       }
+   }
+
 
     private void afficherFacture() {
         try {

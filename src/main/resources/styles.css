@@ -32,3 +32,24 @@
     -fx-font-weight: bold;
     -fx-text-fill: #4caf50;
 }
+.default-color0.chart-bar { -fx-bar-fill: #398c3e; } /* Vert */
+
+.default-color0.chart-pie {
+    -fx-pie-color: #1eae36; /* Vert pour "In Stock" */
+}
+
+.default-color1.chart-pie {
+    -fx-pie-color: #066114; /* Rouge pour "Out of Stock" */
+}
+.chart-pie-label {
+    -fx-fill: black; /* Texte en noir */
+    -fx-font-size: 14px;
+}
+
+.default-color0.chart-pie {
+    -fx-pie-color: #1eae36; /* Vert pour "In Stock" */
+}
+
+.default-color1.chart-pie {
+    -fx-pie-color: #066114; /* Rouge pour "Out of Stock" */
+}

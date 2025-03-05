@@ -17,7 +17,7 @@
     <left>
         <AnchorPane prefHeight="610.0" prefWidth="255.0" style="-fx-background-color: #dbefe1;" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane fx:id="anLogout" layoutX="1.0" layoutY="563.0" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
+                <AnchorPane fx:id="anLogout" layoutX="1.0" layoutY="563.0" onMouseClicked="#logout" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
                     <children>
                         <Text fill="#398c3e" layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logout" wrappingWidth="212.07421875">
                             <font>
@@ -31,7 +31,7 @@
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="anCategories" layoutX="1.0" layoutY="42.0" onMouseClicked="#NavigateToGestionCategorie" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="286.0" style="-fx-background-color: #398c3e; -fx-border-radius: 0;">
+                <AnchorPane fx:id="anCategories" layoutX="1.0" layoutY="42.0" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="286.0" style="-fx-background-color: #398c3e; -fx-border-radius: 0;">
                     <children>
                         <Text layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories" wrappingWidth="212.07421875">
                             <font>
@@ -45,9 +45,9 @@
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="anCoverageArea" layoutX="2.0" layoutY="92.0" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
+                <AnchorPane fx:id="anOrder" layoutX="2.0" layoutY="92.0" onMouseClicked="#navigateToCommandes" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
                     <children>
-                        <Text fill="#398c3e" layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Orders report" wrappingWidth="212.07421875">
+                        <Text fill="#398c3e" layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Orders Report" wrappingWidth="212.07421875">
                             <font>
                                 <Font name="Bodoni MT" size="20.0" />
                             </font>
@@ -75,7 +75,7 @@
                         <Image url="@image/setting-removebg-preview.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="29.0" fitWidth="21.0" layoutX="1014.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="stats" fitHeight="26.0" fitWidth="30.0" layoutX="1014.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@image/notification-bell.png" />
                     </image>
@@ -89,7 +89,6 @@
                 <TextField fx:id="anSearch" layoutX="22.0" layoutY="13.0" prefHeight="41.0" prefWidth="749.0" promptText="Search by name" style="-fx-background-color: transparent; -fx-border-color: #398c3e; -fx-border-width: 0px 0px 2px 0px;" />
 
                 <ImageView fx:id="idadd" fitHeight="31.0" fitWidth="22.0" layoutX="742.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-
                     <image>
                         <Image url="@image/search (1).png" />
                     </image>
@@ -97,7 +96,7 @@
 
                 <HBox layoutX="14.0" layoutY="76.0" prefHeight="504.0" prefWidth="764.0">
                     <children>
-                        <ScrollPane prefHeight="504.0" prefWidth="775.0" styleClass="transparennt">
+                        <ScrollPane prefHeight="504.0" prefWidth="775.0" styleClass="transparent">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="766.0">
                                     <children>
@@ -105,17 +104,16 @@
                                             <children>
                                                 <HBox fx:id="headerhb" prefHeight="28.0" prefWidth="765.0" style="-fx-background-color: #398c3e;">
                                                     <children>
-                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="172.0" text="Category name">
+                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="172.0" text="Category Name">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="195.0" text="Description Categorie">
+                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="195.0" text="Category Description">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-
                                                     </children>
                                                 </HBox>
                                                 <HBox fx:id="hbHedha" prefHeight="32.0" prefWidth="765.0">
@@ -125,7 +123,7 @@
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label fx:id="lbdescrip" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="204.0" text="Category description">
+                                                        <Label fx:id="lbdescrip" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="204.0" text="Category Description">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
@@ -143,6 +141,7 @@
                         </ScrollPane>
                     </children>
                 </HBox>
-            </children></AnchorPane>
+            </children>
+        </AnchorPane>
     </center>
 </BorderPane>

@@ -39,6 +39,43 @@ public class CrudCategorie implements IServiceCrud<Categorie> {
             e.printStackTrace();
         }
     }
+    public List<String> getAllCategoryNames() {
+        List<String> categoryNames = new ArrayList<>();
+        String query = "SELECT nom FROM categorie";  // Récupère uniquement les noms des catégories
+
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String nom = rs.getString("nom");  // Récupère le nom de la catégorie
+                categoryNames.add(nom);  // Ajoute le nom dans la liste
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoryNames;
+    }
+
+    public int getCategoryIdByName(String categoryName) {
+        String query = "SELECT id_categorie FROM categorie WHERE nom = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, categoryName);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id_categorie");
+            } else {
+                System.out.println("Category not found: " + categoryName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+
 
     @Override
     public List<Categorie> getAll() {

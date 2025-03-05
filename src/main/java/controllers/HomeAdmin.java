@@ -148,6 +148,22 @@ public class HomeAdmin {
         }
     }
     @FXML
+    private void navigateToAvis() {
+        try {
+            // Load the SignUp.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avisAdmin.fxml"));
+            Scene signUpScene = new Scene(loader.load());
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) anRiders.getScene().getWindow();
+            stage.setScene(signUpScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading SignUp.fxml.");
+        }
+    }
+    @FXML
     public void normalEffect(javafx.scene.input.MouseEvent event) {
         ((AnchorPane) event.getSource()).setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 

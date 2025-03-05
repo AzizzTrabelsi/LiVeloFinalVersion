@@ -63,6 +63,8 @@ public class SignIn {
                         navigateToHomePartner();
                     }else if (role.equals("delivery_person")){
                         navigateToHomeLivreur();
+                    }else if (role.equals("client")){
+                        navigateToHomeClient();
                     }
                 }
             } else {
@@ -167,6 +169,19 @@ public class SignIn {
     private void navigateToHomeLivreur() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeLivreur.fxml"));
+            Scene homeAdminScene = new Scene(loader.load());
+            Stage stage = (Stage) LoginButton.getScene().getWindow();
+            stage.setScene(homeAdminScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading homeAdmin.fxml.");
+        }
+    }
+    @FXML
+    private void navigateToHomeClient() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeClient.fxml"));
             Scene homeAdminScene = new Scene(loader.load());
             Stage stage = (Stage) LoginButton.getScene().getWindow();
             stage.setScene(homeAdminScene);

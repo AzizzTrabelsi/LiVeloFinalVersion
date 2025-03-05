@@ -105,7 +105,6 @@ public class ValidationCommandeController {
 
     @FXML
     private void validerCommande() {
-        // Vérifier que l'utilisateur a bien rempli les champs
         if (adresseDepField.getText().isEmpty()||adresseDepField.getText().equals("Adresse inconnue") || adresseArrField.getText().isEmpty()||adresseArrField.getText().equals("Adresse inconnue")) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Fields are required", ButtonType.OK);
             alert.show();
@@ -127,7 +126,7 @@ public class ValidationCommandeController {
         crudCommande.update(commandeEnCours);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Order succesfully done", ButtonType.OK);
-        double total = Double.parseDouble(labelTotal.getText().replace(" TND", ""));
+        double total = Double.parseDouble(labelTotal.getText().replace(" TND", "").replace(",", "."));
         alert.showAndWait().ifPresent(response -> {
             try {
                 // Charger la page de Facture

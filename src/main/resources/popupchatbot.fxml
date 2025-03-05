@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="574.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.chatbot">
+   <children>
+      <AnchorPane prefHeight="575.0" prefWidth="809.0" style="-fx-background-color: #dbefe1;">
+         <children>
+            <Label layoutX="363.0" layoutY="52.0" prefHeight="54.0" prefWidth="123.0" text="LivoBot !" textAlignment="CENTER" textFill="#158419">
+               <font>
+                  <Font name="Tw Cen MT Italic" size="28.0" />
+               </font>
+            </Label>
+            <TextField fx:id="userInput" layoutX="169.0" layoutY="216.0" prefHeight="35.0" prefWidth="435.0" promptText="What's on your mind ?.." />
+            <TextArea fx:id="chatArea" layoutX="169.0" layoutY="256.0" prefHeight="276.0" prefWidth="490.0" promptText="generating.." />
+            <Button fx:id="sendButton" layoutX="609.0" layoutY="220.0" mnemonicParsing="false" onAction="#envoyerMessage" prefHeight="26.0" prefWidth="49.0" style="-fx-background-color: #dbefe1; -fx-border-color: #158419;" text="Send" />
+            <Label layoutX="248.0" layoutY="129.0" prefHeight="66.0" prefWidth="410.0" text="Are you confused? I'm LiveBot, Livelo's AI assistant, ready to help you!" textFill="#158419">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="77.0" fitWidth="73.0" layoutX="169.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/robot.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
