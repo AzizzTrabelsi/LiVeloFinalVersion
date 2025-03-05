@@ -31,6 +31,7 @@ public class Authentification implements interfaces.IServiceAuth {
     private static final HashMap<String, String> resetCodes = new HashMap<>();
     private static String token;
 
+
     public static void setToken(String t) {
         token = t;
     }
@@ -75,7 +76,8 @@ public class Authentification implements interfaces.IServiceAuth {
 
                      Authentification.setToken(generateToken(user));
                     System.out.println("Connexion réussie. Token généré : " + token);
-
+                    // Stocker le token dans la variable statique
+                    setToken(token);
                     JSONObject userInfo = decodeToken(token);
                     if (userInfo != null) {
                         System.out.println("Informations de l'utilisateur : " + userInfo.toJSONString());
@@ -94,6 +96,15 @@ public class Authentification implements interfaces.IServiceAuth {
         return null;
     }
 
+    // Méthode pour stocker le token
+    public static void setToken(String t) {
+        token = t;
+    }
+
+    // Méthode pour récupérer le token
+    public static String getToken() {
+        return token;
+    }
 
 
 

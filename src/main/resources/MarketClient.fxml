@@ -25,9 +25,9 @@
                         <Image url="@image/setting-removebg-preview.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="26.0" fitWidth="34.0" layoutX="1014.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="robot" fitHeight="26.0" fitWidth="34.0" layoutX="1014.0" layoutY="22.0" onMouseClicked="#navigateTochatbot" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@image/notification-bell.png" />
+                        <Image url="@image/robot.png" />
                     </image>
                 </ImageView>
                 <TextField fx:id="anSearch" layoutX="373.0" layoutY="14.0" prefHeight="42.0" prefWidth="373.0" promptText="Search by name" style="-fx-background-color: transparent; -fx-border-color: #398c3e; -fx-border-width: 0px 0px 2px 0px;" />
@@ -51,7 +51,7 @@
                     <children>
                         <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="618.0" prefWidth="1111.0" style="-fx-background-color: #dbefe1#dbefe1;" HBox.hgrow="ALWAYS">
                      <content>
-                        <FlowPane fx:id="grid" hgap="20.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #dbefe1;" vgap="20.0" />
+                        <FlowPane fx:id="grid" hgap="20.0" prefHeight="609.0" prefWidth="1032.0" style="-fx-background-color: #dbefe1;" vgap="20.0" />
                      </content>
                         </ScrollPane>
                     </children>

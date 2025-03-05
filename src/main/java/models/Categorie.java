@@ -24,6 +24,13 @@ public class Categorie {
         this.url_image = url_image;
         this.createdBy = createdBy;
     }
+    public Categorie( String nom, String description, int createdBy) {
+
+        this.nom = nom;
+        this.description = description;
+
+        this.createdBy = createdBy;
+    }
     public Categorie(int id_categorie) {
         this.id_categorie = id_categorie;
     }

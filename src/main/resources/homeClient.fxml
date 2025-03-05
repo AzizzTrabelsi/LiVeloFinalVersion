@@ -32,6 +32,7 @@
                         <ComboBox fx:id="combo" layoutX="6.0" layoutY="7.0" onAction="#handleCategorySelection" prefHeight="26.0" prefWidth="163.0" promptText="categories" />
                     </children>
                 </AnchorPane>
+
             <ImageView fx:id="imBills" fitHeight="43.0" fitWidth="54.0" layoutX="724.0" layoutY="11.0" onMouseClicked="#navigateToBillsClient" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@image/bill.png" />
@@ -72,3 +73,4 @@
         </AnchorPane>
     </center>
 </BorderPane>
+

@@ -1,4 +1,5 @@
 package controllers;
+import javafx.stage.Modality;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,15 +18,16 @@ import javafx.stage.Stage;
 import models.Categorie;
 import services.CrudCategorie;
 import tests.MainUserInterface;
-
+import net.minidev.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
+import services.Authentification;
 import javafx.scene.Node;
 import java.util.Optional;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Parent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -111,9 +113,9 @@ public class adminCat implements Initializable  {
         System.out.println("categorie sélectionné : " + categorie.getNom() + " " + categorie.getDescription());
 
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.setTitle("Détails de la categorie ");
-        alert.setContentText( "id categorie : " + categorie.getId_categorie() + "\n" +
-                "Nom : " + categorie.getNom() + "\n" +
+        alert.setTitle("Category Details ");
+        alert.setContentText( "Id category : " + categorie.getId_categorie() + "\n" +
+                "Name: " + categorie.getNom() + "\n" +
 
                 "Description : " + categorie.getDescription());
 
@@ -126,25 +128,25 @@ public class adminCat implements Initializable  {
         });
 
 
-        ButtonType updateButton = new ButtonType("Mettre à jour");
-        ButtonType deleteButton = new ButtonType("Supprimer");
-        ButtonType viewArticlesButton = new ButtonType("Voir les articles");
+        ButtonType updateButton = new ButtonType("Update");
+        ButtonType deleteButton = new ButtonType("Delete");
+        ButtonType viewArticlesButton = new ButtonType("View Items");
         alert.getButtonTypes().setAll(updateButton, deleteButton, viewArticlesButton);
 
         alert.showAndWait().ifPresent(response -> {
             if (response == updateButton) {
                 showUpdatePopup(categorie);
-                System.out.println("Mettre à jour les informations de la catégorie.");
+                System.out.println("Update Category Information");
             } else if (response == deleteButton) {
                 // Afficher une pop-up de confirmation pour la suppression
                 javafx.scene.control.Alert confirmationAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
-                confirmationAlert.setTitle("Confirmation de la suppression");
-                confirmationAlert.setHeaderText("Êtes-vous sûr de vouloir supprimer cette catégorie ?");
-                confirmationAlert.setContentText("Cette action est irréversible.");
+                confirmationAlert.setTitle("Delete Confirmation");
+                confirmationAlert.setHeaderText("Are you sure you want to delete this category?");
+                confirmationAlert.setContentText("This action is irreversible.");
 
                 // Ajouter les boutons de confirmation
-                ButtonType yesButton = new ButtonType("Oui");
-                ButtonType noButton = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+                ButtonType yesButton = new ButtonType("Yes");
+                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
                 confirmationAlert.getButtonTypes().setAll(yesButton, noButton);
 
@@ -152,10 +154,10 @@ public class adminCat implements Initializable  {
                     if (confirmationResponse == yesButton) {
                         // Effectuer la suppression
                         su.delete(categorie.getId_categorie());
-                        System.out.println("Catégorie supprimée.");
+                        System.out.println("Category deleted..");
                         loadCategory();
                     } else {
-                        System.out.println("Suppression annulée.");
+                        System.out.println("Deletion canceled.");
                     }
                 });
             } else if (response == viewArticlesButton) {
@@ -173,11 +175,11 @@ public class adminCat implements Initializable  {
     @FXML
     private void showUpdatePopup(Categorie categorie) {
         Dialog<Categorie> dialog = new Dialog<>();
-        dialog.setTitle("Mettre à jour la catégorie ");
-        dialog.setHeaderText("Modifier les informations de la catégorie");
+        dialog.setTitle("Update Category ");
+        dialog.setHeaderText("Edit Category Information");
 
-        ButtonType saveButtonType = new ButtonType("Enregistrer", ButtonBar.ButtonData.OK_DONE);
-        ButtonType cancelButtonType = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, cancelButtonType);
 
         GridPane grid = new GridPane();
@@ -190,13 +192,24 @@ public class adminCat implements Initializable  {
         TextField descField = new TextField(categorie.getDescription());
         //TextField imgField = new TextField(categorie.getUrl_image());
 
-        grid.add(new Label("Nom:"), 0, 0);
+        grid.add(new Label("Name:"), 0, 0);
         grid.add(nomField, 1, 0);
         grid.add(new Label("Description:"), 0, 1);
         grid.add(descField, 1, 1);
         // grid.add(new Label("url image:"), 0, 2);
         //grid.add(imgField, 1, 2);
+        Label createdByLabel = new Label();
+        createdByLabel.setText("This category is created by : " + afficherNomCompletUtilisateur());
+        TextField createdByField = new TextField();
+        createdByField.setPromptText("created by (user id)");
+        createdByField.setVisible(false);
+        int idUtilisateur = afficherIdUtilisateur(); // Appelle la méthode pour récupérer l'ID
 
+// Afficher l'ID sous forme de chaîne dans le TextField
+        createdByField.setText(String.valueOf(idUtilisateur)); // TextField attend une chaîne, donc on convertit l'ID en chaîne
+
+// Stocker l'ID utilisateur sous forme d'entier dans les données utilisateur
+        createdByField.setUserData(idUtilisateur);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -205,6 +218,7 @@ public class adminCat implements Initializable  {
                 // Update the user object with the new values
                 categorie.setNom(nomField.getText());
                 categorie.setDescription(descField.getText());
+
                 // categorie.setUrl_image(imgField.getText());
 
 
@@ -352,6 +366,66 @@ public class adminCat implements Initializable  {
             vListUsers.getChildren().add(catRow);
         }
     }
+    // Méthode pour récupérer le nom et le prénom de l'utilisateur connecté
+    public String afficherNomCompletUtilisateur() {
+        String token = Authentification.getToken();
+
+        if (token != null) {
+            JSONObject userInfo = new Authentification().decodeToken(token);
+            if (userInfo != null) {
+                String nom = (String) userInfo.get("nom");  // Récupérer le nom
+                String prenom = (String) userInfo.get("prenom");  // Récupérer le prénom
+                return nom + " " + prenom;  // Retourner le nom complet
+            } else {
+                System.out.println("Erreur dans le décodage du token.");
+                return "";  // Retourner une chaîne vide en cas d'erreur
+            }
+        } else {
+            System.out.println("Aucun token trouvé. L'utilisateur n'est pas connecté.");
+            return "";  // Retourner une chaîne vide si aucun token n'est trouvé
+        }
+    }
+
+    // Méthode pour récupérer l'ID de l'utilisateur connecté
+    public int afficherIdUtilisateur() {
+        String token = Authentification.getToken();
+
+        if (token != null) {
+            JSONObject userInfo = new Authentification().decodeToken(token);
+            if (userInfo != null) {
+                // Afficher tout le contenu du token pour diagnostic
+                System.out.println("Contenu du token : " + userInfo.toJSONString());
+
+                Object idObject = userInfo.get("idUser");  // Changer ici la clé de "id" à "idUser"
+                System.out.println("ID dans le token : " + idObject);  // Affiche l'ID extrait du token
+
+                if (idObject != null) {
+                    // Vérification si l'ID est de type Integer
+                    if (idObject instanceof Integer) {
+                        return (int) idObject; // Retourner l'ID si c'est un Integer
+                    } else {
+                        try {
+                            // Si l'ID est sous forme de String, on le convertit en entier
+                            return Integer.parseInt((String) idObject);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Erreur de conversion de l'ID utilisateur : " + idObject); // Affiche l'ID qui a causé l'erreur
+                            return -1; // Retourner -1 en cas d'erreur de conversion
+                        }
+                    }
+                } else {
+                    System.out.println("L'ID est null dans le token.");
+                    return -1; // Retourne -1 si l'ID est null
+                }
+            } else {
+                System.out.println("Erreur dans le décodage du token.");
+                return -1; // Retourne -1 en cas d'erreur de décodage
+            }
+        } else {
+            System.out.println("Aucun token trouvé. L'utilisateur n'est pas connecté.");
+            return -1; // Retourne -1 si aucun token n'est trouvé
+        }
+    }
+
     @FXML
     private void handleAddCategoryClick(MouseEvent event) {
         // Logique pour ouvrir le popup d'ajout de catégorie
@@ -364,7 +438,7 @@ public class adminCat implements Initializable  {
     private void openAddCategoryPopup() {
         // Créer une nouvelle fenêtre (popup)
         Stage popupStage = new Stage();
-        popupStage.setTitle("Ajouter une catégorie");
+        popupStage.setTitle("Add category");
 
         // Créer un layout pour la popup (VBox)
         VBox popupLayout = new VBox(10);
@@ -372,25 +446,37 @@ public class adminCat implements Initializable  {
 
         // Champs de saisie
         TextField nameField = new TextField();
-        nameField.setPromptText("Nom de la catégorie");
+        nameField.setPromptText("Category Name");
         TextArea descriptionField = new TextArea();
-        descriptionField.setPromptText("Description de la catégorie");
+        descriptionField.setPromptText("Description ...");
 //        TextField imageUrlField = new TextField();
 //        imageUrlField.setPromptText("URL de l'image");
+        Label createdByLabel = new Label();
+        createdByLabel.setText("This category is created by : " + afficherNomCompletUtilisateur());
+        TextField createdByField = new TextField();
+        createdByField.setPromptText("Créé par (ID utilisateur)");
+        createdByField.setVisible(false);
+        int idUtilisateur = afficherIdUtilisateur(); // Appelle la méthode pour récupérer l'ID
 
+// Afficher l'ID sous forme de chaîne dans le TextField
+        createdByField.setText(String.valueOf(idUtilisateur)); // TextField attend une chaîne, donc on convertit l'ID en chaîne
+
+// Stocker l'ID utilisateur sous forme d'entier dans les données utilisateur
+        createdByField.setUserData(idUtilisateur);
         // Créer un bouton pour enregistrer la catégorie
-        Button saveButton = new Button("Enregistrer");
+        Button saveButton = new Button("Save");
 
         // Gérer l'événement du bouton Enregistrer
         saveButton.setOnAction(event -> {
             String name = nameField.getText();
             String description = descriptionField.getText();
+            int createdBy = Integer.parseInt(createdByField.getText());
             //String imageUrl = imageUrlField.getText();
 
             // Vérifier si les champs ne sont pas vides
             if (!name.isEmpty() && !description.isEmpty()/* && !imageUrl.isEmpty()*/) {
                 // Créer une nouvelle catégorie
-                Categorie newCategory = new Categorie(name, description); // Assurez-vous que votre constructeur est correct
+                Categorie newCategory = new Categorie(name, description,createdBy); // Assurez-vous que votre constructeur est correct
 
                 // Ajouter la catégorie à la base de données ou au service
                 su.add(newCategory);  // Ajoutez la catégorie à votre service de gestion des catégories
@@ -403,13 +489,13 @@ public class adminCat implements Initializable  {
             } else {
                 // Si des champs sont vides, afficher un message d'erreur
 
-                Alert alert = new Alert(AlertType.ERROR, "Veuillez remplir tous les champs.");
+                Alert alert = new Alert(AlertType.ERROR, "Please fill in all fields.");
                 alert.showAndWait();
             }
         });
 
         // Ajouter les champs et le bouton au layout de la popup
-        popupLayout.getChildren().addAll(nameField, descriptionField, saveButton);
+        popupLayout.getChildren().addAll(nameField, descriptionField, createdByLabel,createdByField,saveButton);
 
         // Créer la scène et ajouter le layout
         Scene popupScene = new Scene(popupLayout, 300, 250);
@@ -425,7 +511,8 @@ public class adminCat implements Initializable  {
 
     @FXML
     private AnchorPane anCoverageArea;
-
+    @FXML
+    private ImageView robot;
     @FXML
     private AnchorPane anLogout;
     @FXML
@@ -484,6 +571,107 @@ public class adminCat implements Initializable  {
         }
     }
 
+
+
+
+    @FXML
+    void NavigateToGestionCategorie(MouseEvent event) {
+        try {
+            // Load the SignUp.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionCategorie.fxml"));
+            Scene signUpScene = new Scene(loader.load());
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) anCategories.getScene().getWindow();
+            stage.setScene(signUpScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading SignUp.fxml.");
+        }
+    }
+    @FXML
+    private void navigateToChatbot() {
+        System.out.println("Ouverture du Chatbot..."); // Pour vérifier l'ouverture
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/popupchatbot.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur du chatbot si besoin (ex: pour passer des paramètres)
+            chatbot controller = loader.getController();
+            // Si le chatbot a besoin de paramètres, tu peux les passer ici
+            // controller.setSomeParameter(value);
+
+            // Ouvrir la nouvelle fenêtre du chatbot
+            Stage stage = new Stage();
+            stage.setTitle("Chatbot");
+            stage.setScene(new Scene(root));
+
+            // Rendre la fenêtre modale pour bloquer l'interaction avec la fenêtre principale
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(robot.getScene().getWindow());
+
+            stage.showAndWait(); // Attend la fermeture avant de continuer
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ouvrir le Chatbot.", Alert.AlertType.ERROR);
+        }
+    }
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+    @FXML
+    private void navigateToHome() {
+        try {
+            // Load the SignUp.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeAdmin.fxml"));
+            Scene signUpScene = new Scene(loader.load());
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) imLogo.getScene().getWindow();
+            stage.setScene(signUpScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading SignUp.fxml.");
+        }
+    }
+    @FXML
+    private void logout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Scene SignInScene = new Scene(loader.load());
+
+            Stage stage = (Stage) anLogout.getScene().getWindow();
+            stage.setScene(SignInScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading SignUp.fxml.");
+        }
+    }
+    @FXML
+    private void NavigateToGestionUsers() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionUtilisateurs.fxml"));
+            Scene GestionUtilisateursScene = new Scene(loader.load());
+
+            Stage stage = (Stage) anLogout.getScene().getWindow();
+            stage.setScene(GestionUtilisateursScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading SignUp.fxml.");
+        }
+    }
     @FXML
     private void NavigateToPendingUsers() {
         try {
@@ -499,13 +687,25 @@ public class adminCat implements Initializable  {
         }
     }
     @FXML
+    private void NavigateToGestionCategorie() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/adminCat.fxml"));
+            Scene GestionCategorieScene = new Scene(loader.load());
+
+            Stage stage = (Stage) anCategories.getScene().getWindow();
+            stage.setScene(GestionCategorieScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading gestionategorie.fxml.");
+        }
+    }
+    @FXML
     private void navigateToZones() {
         try {
-            // Load the SignUp.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionZoneAdmin.fxml"));
             Scene signUpScene = new Scene(loader.load());
 
-            // Get the current stage and set the new scene
             Stage stage = (Stage) anCoverageArea.getScene().getWindow();
             stage.setScene(signUpScene);
             stage.show();
@@ -531,28 +731,14 @@ public class adminCat implements Initializable  {
         }
     }
     @FXML
-    private void NavigateToGestionUsers() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionUtilisateurs.fxml"));
-            Scene GestionUtilisateursScene = new Scene(loader.load());
-
-            Stage stage = (Stage) anLogout.getScene().getWindow();
-            stage.setScene(GestionUtilisateursScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error loading SignUp.fxml.");
-        }
-    }
-    @FXML
-    void NavigateToGestionCategorie(MouseEvent event) {
+    private void navigateToAvis() {
         try {
             // Load the SignUp.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionCategorie.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avisAdmin.fxml"));
             Scene signUpScene = new Scene(loader.load());
 
             // Get the current stage and set the new scene
-            Stage stage = (Stage) anCategories.getScene().getWindow();
+            Stage stage = (Stage) anRiders.getScene().getWindow();
             stage.setScene(signUpScene);
             stage.show();
         } catch (IOException e) {
@@ -560,8 +746,6 @@ public class adminCat implements Initializable  {
             System.out.println("Error loading SignUp.fxml.");
         }
     }
-
-
     @FXML
     public void normalEffect(javafx.scene.input.MouseEvent event) {
         ((AnchorPane) event.getSource()).setStyle("-fx-background-color: transparent; -fx-cursor: hand;");

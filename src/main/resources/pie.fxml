@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="656.0" prefWidth="817.0" style="-fx-background-color: #dbefe1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.pie">
+   <children>
+      <Label layoutX="276.0" layoutY="61.0" prefHeight="42.0" prefWidth="207.0" text="Article availability" textFill="#066114">
+         <font>
+            <Font name="Bodoni MT" size="25.0" />
+         </font>
+      </Label>
+      <PieChart fx:id="pie" layoutX="158.0" layoutY="147.0" />
+      <TableView fx:id="outstock" layoutX="38.0" layoutY="430.0" prefHeight="187.0" prefWidth="193.0" style="-fx-background-color: #dbefe1;">
+        <columns>
+          <TableColumn fx:id="outstockName" prefWidth="164.80000076293945" text="Artile out of stock" />
+        </columns>
+      </TableView>
+      <TableView fx:id="onstock" layoutX="589.0" layoutY="426.0" prefHeight="194.0" prefWidth="200.0" style="-fx-background-color: #dbefe1;">
+        <columns>
+          <TableColumn fx:id="onstockName" prefWidth="195.199951171875" text="Article on stock" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

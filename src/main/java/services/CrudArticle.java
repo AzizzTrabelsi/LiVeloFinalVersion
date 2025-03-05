@@ -48,6 +48,31 @@ public class CrudArticle implements IServiceCrud<Article> {
         }
         return articles;
     }
+    public void incrementNbViews(int id_article) {
+        String query = "UPDATE article SET nbViews = nbViews + 1 WHERE id_article = ?";
+
+        // Utilisation de try-with-resources pour s'assurer que la connexion et la statement sont fermées après utilisation
+        try ( // Connexion à la base de données
+             PreparedStatement statement = conn.prepareStatement(query)) {  // Préparer la requête
+
+            // Passer l'ID de l'article dans la requête
+            statement.setInt(1, id_article);
+
+            // Exécuter la requête de mise à jour
+            int rowsUpdated = statement.executeUpdate();  // Mettre à jour la table
+
+            // Vérifier si la mise à jour a été effectuée
+            if (rowsUpdated > 0) {
+                System.out.println("Le nombre de vues a été mis à jour pour l'article avec l'ID : " + id_article);
+            } else {
+                System.err.println("Aucun article trouvé avec l'ID : " + id_article);
+            }
+        } catch (SQLException e) {
+            // Afficher une erreur en cas d'exception
+            e.printStackTrace();
+        }
+    }
+
 
 
     @Override
@@ -470,6 +495,7 @@ public class CrudArticle implements IServiceCrud<Article> {
         }
         return articles;
     }
+
 
 
 }

@@ -86,9 +86,9 @@ public class GestionCategorie implements Initializable  {
         System.out.println("categorie sélectionné : " + categorie.getNom() + " " + categorie.getDescription());
 
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.setTitle("Détails de la categorie ");
-        alert.setContentText( "id categorie : " + categorie.getId_categorie() + "\n" +
-                "Nom : " + categorie.getNom() + "\n" +
+        alert.setTitle("Category Details ");
+        alert.setContentText( "ID category : " + categorie.getId_categorie() + "\n" +
+                "Name : " + categorie.getNom() + "\n" +
                 "Description : " + categorie.getDescription());
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
@@ -99,7 +99,7 @@ public class GestionCategorie implements Initializable  {
             stage.close();
         });
 
-        ButtonType viewArticlesButton = new ButtonType("Voir les articles");
+        ButtonType viewArticlesButton = new ButtonType("show items");
         alert.getButtonTypes().setAll(viewArticlesButton);
 
         alert.showAndWait().ifPresent(response -> {
@@ -412,7 +412,7 @@ public class GestionCategorie implements Initializable  {
     void navigateToHome(MouseEvent event) {
         try {
             // Load the SignUp.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeAdmin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionCategorie.fxml"));
             Scene signUpScene = new Scene(loader.load());
 
             // Get the current stage and set the new scene
@@ -424,15 +424,30 @@ public class GestionCategorie implements Initializable  {
             System.out.println("Error loading SignUp.fxml.");
         }
     }
+
     @FXML
-    void NavigateToGestionCategorie(MouseEvent event) {
+    private void logout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Scene SignInScene = new Scene(loader.load());
+
+            Stage stage = (Stage) anLogout.getScene().getWindow();
+            stage.setScene(SignInScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading SignUp.fxml.");
+        }
+    }
+    @FXML
+    private void navigateToCommandes() {
         try {
             // Load the SignUp.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionCategorie.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/commandeAdmin.fxml"));
             Scene signUpScene = new Scene(loader.load());
 
             // Get the current stage and set the new scene
-            Stage stage = (Stage) anCategories.getScene().getWindow();
+            Stage stage = (Stage) anOrder.getScene().getWindow();
             stage.setScene(signUpScene);
             stage.show();
         } catch (IOException e) {

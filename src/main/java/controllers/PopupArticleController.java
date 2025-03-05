@@ -20,7 +20,8 @@ public class PopupArticleController implements Initializable {
 
     @FXML
     private Label descriptionArticle;
-
+    @FXML
+    private Label nbvue;
     @FXML
     private ImageView imageArticle;
 
@@ -47,6 +48,8 @@ public class PopupArticleController implements Initializable {
         nomArticle.setText(article.getNom());
         prixArticle.setText("Prix : " + article.getPrix() + " TND");
         descriptionArticle.setText(article.getDescription());
+        // Afficher le nombre de vues
+        nbvue.setText("Vues : " + article.getNbViews());
         String imagePath=article.getUrlImage()+".jpg";
         imageArticle.setImage(new Image(imagePath)); // Assurez-vous que l'image URL est correcte
     }

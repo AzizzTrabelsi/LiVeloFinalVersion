@@ -367,5 +367,56 @@ public class CrudUser implements IServiceCrud<User> {
         return false; // Si une exception se produit ou aucun résultat n'est trouvé
     }
 
+    public List<User> getByRole(String role) {
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM `user` WHERE `role` = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, role);  // Utiliser le rôle comme paramètre dans la requête SQL
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int userId = rs.getInt("idUser");
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String roleString = rs.getString("role");
+                String typeVehiculeString = rs.getString("type_vehicule"); // Peut être NULL
+                boolean verified = rs.getBoolean("verified");
+                String adresse = rs.getString("adresse");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String num_tel = rs.getString("num_tel");
+                String cin = rs.getString("cin");
+
+                // Conversion des enums
+                role_user roleEnum = role_user.valueOf(roleString);
+
+                type_vehicule typeVehicule = null;
+                if (typeVehiculeString != null && !typeVehiculeString.trim().isEmpty()) {
+                    try {
+                        typeVehicule = type_vehicule.valueOf(typeVehiculeString);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Valeur inconnue pour type_vehicule: " + typeVehiculeString);
+                        typeVehicule = null;
+                    }
+                }
+
+                User user = new User(userId, nom, prenom, roleEnum, verified, adresse,
+                        typeVehicule, email, password, num_tel, cin);
+
+                users.add(user);  // Ajouter l'utilisateur à la liste
+            }
+
+            if (users.isEmpty()) {
+                System.out.println("Aucun utilisateur trouvé avec le rôle : " + role);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;  // Retourner la liste des utilisateurs
+    }
+
 
 }

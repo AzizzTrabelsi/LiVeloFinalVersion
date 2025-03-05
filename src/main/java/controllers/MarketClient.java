@@ -37,7 +37,8 @@ public class MarketClient implements Initializable {
         private HBox articleLayout;
         @FXML
         private FlowPane grid;
-
+        @FXML
+        private ImageView robot;
         @FXML
         private ImageView imLogo;
 
@@ -45,6 +46,23 @@ public class MarketClient implements Initializable {
         void navigateToHome(MouseEvent event) {
 
         }
+        @FXML
+         void navigateTochatbot() {
+                try {
+                        // Load the SignUp.fxml file
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/popupchatbot.fxml"));
+                        Scene signUpScene = new Scene(loader.load());
+
+                        // Get the current stage and set the new scene
+                        Stage stage = (Stage) robot.getScene().getWindow();
+                        stage.setScene(signUpScene);
+                        stage.show();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("Error loading popupchatbot.fxml.");
+                }
+        }
+
         public static int commandeId = -1;
         public static void setCommandeId(int id) {
                 commandeId = id;
@@ -206,6 +224,12 @@ public class MarketClient implements Initializable {
         }
         private void afficherPopupArticle(Article article) {
                 try {
+                        // Incrémenter le nombre de vues en base de données
+                        CrudArticle crudArticle = new CrudArticle();
+                        crudArticle.incrementNbViews(article.getIdArticle());
+
+                        // Mettre à jour l'objet `Article` localement
+                        article.setNbViews(article.getNbViews() + 1);
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/popuparticle.fxml"));
                         AnchorPane Root = loader.load();
 
