@@ -468,6 +468,33 @@ public class CrudArticle implements IServiceCrud<Article> {
 
         return articles;
     }
+    public List<Article> getAllByPartner(int idPartner){
+        List<Article> articles = new ArrayList<>();
+        String query = "SELECT * FROM `article` WHERE `created_by` = ?";
+        try(PreparedStatement stmt= conn.prepareStatement(query)) {
+            stmt.setInt(1, idPartner);
+            System.out.println("idpartner get all partner article"+idPartner);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Article article = new Article(rs.getInt("id_article")
+                        ,rs.getString("url_image")
+                        ,null
+                        ,rs.getString("nom")
+                        ,rs.getFloat("prix")
+                        ,rs.getString("description")
+                        ,rs.getInt("created_by")
+                        ,rs.getInt("quantite")
+                        ,statut_article.valueOf(rs.getString("Statut"))
+                        ,rs.getDate("createdAt")
+                        ,rs.getInt("nbViews")
+                );
+                articles.add(article);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return articles;
+    }
 
 
 

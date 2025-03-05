@@ -66,6 +66,31 @@ public class CrudFacture  implements IServiceCrud<Facture> {
 
         return factures;
     }
+    public List<Facture> getByIdUser(int idUser) {
+        List<Facture> factures = new ArrayList<>();
+        String qry = "SELECT * FROM `facture` WHERE `userId`=?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(qry)) {
+            stmt.setInt(1, idUser);
+            ResultSet rs = stmt.executeQuery(); // Don't pass the query string here
+
+            while (rs.next()) {
+                Facture f = new Facture();
+                f.setIdFacture(rs.getInt("idFacture"));
+                f.setMontant(rs.getFloat("montant")); // Using column names instead of index
+                f.setDatef(rs.getDate("date"));
+                f.setTypePaiement(type_paiement.valueOf(rs.getString("type_Payement").toUpperCase())); // Ensure proper column name
+                f.setUserId(rs.getInt("userId"));
+                f.setCommandeId(rs.getInt("commandeId"));
+
+                factures.add(f);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return factures;
+    }
 
     @Override
     public void update(Facture facture) {

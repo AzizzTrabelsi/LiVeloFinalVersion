@@ -30,6 +30,14 @@ public class Authentification implements interfaces.IServiceAuth {
     Connection conn = MyDatabase.getInstance().getConnection();
     private static final HashMap<String, String> resetCodes = new HashMap<>();
     private static String token;
+
+
+    public static void setToken(String t) {
+        token = t;
+    }
+    public static String getToken() {
+        return token;
+    }
     @Override
     public String login(String cin, String password) {
         String query = "SELECT * FROM user WHERE cin = ?";  // Recherche par CIN
@@ -66,7 +74,7 @@ public class Authentification implements interfaces.IServiceAuth {
                             rs.getString("cin")
                     );
 
-                    String token = generateToken(user);
+                     Authentification.setToken(generateToken(user));
                     System.out.println("Connexion réussie. Token généré : " + token);
                     // Stocker le token dans la variable statique
                     setToken(token);
@@ -132,6 +140,14 @@ public class Authentification implements interfaces.IServiceAuth {
         }
         return null;
     }
+    private int getUserIdFromToken(String token) {
+        JSONObject decodedToken = decodeToken(token);
+        if (decodedToken != null && decodedToken.containsKey("idUser")) {
+            return Integer.parseInt(decodedToken.get("idUser").toString());
+        }
+        return -1; // Retourne -1 si l'ID n'est pas trouvé
+    }
+
 
 
     public JSONObject decodeToken(String token) {

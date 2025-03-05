@@ -46,6 +46,20 @@ public class homeLivreur {
 
     }
     @FXML
+    private void navigateToAvailableDeliveries() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AvailableDeliveries.fxml"));
+            Scene signUpScene = new Scene(loader.load());
+
+            Stage stage = (Stage) imLogo.getScene().getWindow();
+            stage.setScene(signUpScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading SignUp.fxml.");
+        }
+    }
+    @FXML
     private void navigateToHome() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeLivreur.fxml"));
