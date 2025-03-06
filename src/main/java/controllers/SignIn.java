@@ -35,6 +35,9 @@ public class SignIn {
     @FXML
     private PasswordField tfPassword;
 
+    //  user id static
+    public static int  id_User;
+
     private boolean isPasswordVisible = false;
 
     @FXML
@@ -52,6 +55,8 @@ public class SignIn {
             JSONObject userInfo = authService.decodeToken(token);
             if (userInfo != null) {
                 String role = userInfo.get("role").toString();  // Get role as string
+                // Get user Id when login
+                id_User = (int) userInfo.get("idUser");
                 boolean isVerified = Boolean.parseBoolean(userInfo.get("verified").toString()); // Get verified status as boolean
 
                 if (!isVerified) {

@@ -37,7 +37,13 @@ public class homeClient implements Initializable  {
     private AnchorPane anLogout;
 
     @FXML
+
+    private ImageView history;
+
+
+
     private ImageView imBills;
+
     @FXML
     private ImageView imLogo;
 
@@ -50,6 +56,7 @@ public class homeClient implements Initializable  {
         combo.getItems().clear();
         combo.getItems().addAll(categoryNames);  // Ajouter les noms des catégories au ComboBox
     }
+
 
     @FXML
     void navigateToBillsClient(MouseEvent event) {
@@ -67,6 +74,7 @@ public class homeClient implements Initializable  {
             System.out.println("Error loading ClientBills.fxml.");
         }
     }
+
 
 
     @FXML
@@ -117,4 +125,18 @@ public class homeClient implements Initializable  {
         alert.showAndWait();
     }
 
+
+    @FXML
+    private void navigerVersHistory() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LivraisonClientt.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) history.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+

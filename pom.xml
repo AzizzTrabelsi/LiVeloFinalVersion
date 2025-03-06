@@ -118,11 +118,14 @@
             <artifactId>stripe-java</artifactId>
             <version>24.9.0</version> <!-- Remplace par la dernière version si besoin -->
         </dependency>
+
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
+
 
 
 

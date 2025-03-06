@@ -2,21 +2,30 @@
 package services;
 
 
+import com.stripe.model.PaymentSourceTypeAdapterFactory;
 import interfaces.IServiceCrud;
-import models.Categorie;
-import models.Livraison;
+import models.*;
 import utils.MyDatabase;
-import models.Avis;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CrudLivraison implements IServiceCrud<Livraison> {
+    private CrudUser crudUser = new CrudUser();
+    private CrudAvis crudAvis = new CrudAvis();
     Connection conn = MyDatabase.getInstance().getConnection();
+    User user = new User();
+    public CrudLivraison (){
+        user.setId(52);
+        this.user=crudAvis.getUser();
+    }
+
+
 
     @Override
     public void add(Livraison liv) {
-        String qry = "INSERT INTO livraison (commandeId, created_by, created_at, factureId, zoneId) VALUES (?, ?, ?, ?, ?)";
+        String qry = "INSERT INTO livraison (commandeId, created_by, created_at, factureId, zoneId, id_livreur) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = conn.prepareStatement(qry, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, liv.getCommandeId());
@@ -24,6 +33,7 @@ public class CrudLivraison implements IServiceCrud<Livraison> {
             statement.setDate(3, new java.sql.Date(liv.getCreatedAt().getTime()));
             statement.setInt(4, liv.getFactureId());
             statement.setInt(5, liv.getZoneId());
+            statement.setInt(6, user.getId());
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
@@ -84,7 +94,7 @@ public class CrudLivraison implements IServiceCrud<Livraison> {
                 int factureId = rs.getInt("factureId");
                 int zoneId = rs.getInt("zoneId");
 
-                Livraison livraison = new Livraison(idLivraison, commandeId, createdBy, createdAt, factureId, zoneId);
+                Livraison livraison = new Livraison(idLivraison, commandeId, createdBy, createdAt, factureId, zoneId, user);
 
                 // Récupérer les avis associés à cette livraison
                 String avisQuery = "SELECT * FROM avis WHERE livraisonId = ?";
@@ -161,7 +171,8 @@ public class CrudLivraison implements IServiceCrud<Livraison> {
                         rs.getInt("created_by"),
                         rs.getTimestamp("created_at"),
                         rs.getInt("factureId"),
-                        rs.getInt("zoneId")
+                        rs.getInt("zoneId"),
+                        crudUser.getById(rs.getInt("id_livreur"))
                 );
 
                 // Récupérer les avis associés à cette livraison
@@ -219,7 +230,8 @@ public class CrudLivraison implements IServiceCrud<Livraison> {
                         rs.getInt("created_by"),
                         rs.getTimestamp("created_at"),
                         rs.getInt("factureId"),
-                        rs.getInt("zoneId")
+                        rs.getInt("zoneId"),
+                        crudUser.getById(rs.getInt("id_livreur"))
                 );
                 livraisons.add(livraison);
             }
@@ -244,6 +256,61 @@ public class CrudLivraison implements IServiceCrud<Livraison> {
         }
 
         return livraisons;
+    }
+    public List<Livraison> gethistorylivraisonbyid_livreur(int id){
+        System.out.println("l'id du usze est ppppppppppppppppppppppppppppppppppppppppppp"+id);
+        List<Livraison> livraisons = new ArrayList<>();
+        String query = "SELECT * FROM livraison " +
+                "INNER JOIN commande ON commande.id_commande = livraison.commandeId " +
+                "WHERE livraison.id_livreur = " + id +
+                " AND commande.statut = '" + statutlCommande.Delivered.name() + "'";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int idLivraison = rs.getInt("idLivraison");
+                int commandeId = rs.getInt("commandeId");
+                int createdBy = rs.getInt("created_by");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+                int factureId = rs.getInt("factureId");
+                int zoneId = rs.getInt("zoneId");
+
+                Livraison livraison = new Livraison(idLivraison, commandeId, createdBy, createdAt, factureId, zoneId, user);
+
+                // Récupérer les avis associés à cette livraison
+                String avisQuery = "SELECT * FROM avis WHERE livraisonId = ?";
+                try (PreparedStatement avisStmt = conn.prepareStatement(avisQuery)) {
+                    avisStmt.setInt(1, idLivraison);
+                    try (ResultSet avisRs = avisStmt.executeQuery()) {
+                        List<Avis> avisList = new ArrayList<>();
+                        while (avisRs.next()) {
+                            Avis avis = new Avis(
+                                    avisRs.getInt("idAvis"),
+                                    avisRs.getInt("created_by"),
+                                    livraison, //
+                                    avisRs.getTimestamp("created_at"),
+                                    avisRs.getString("description")
+                            );
+                            avisList.add(avis);
+                        }
+                        livraison.setAvisList(avisList);
+                    }
+                }
+
+                livraisons.add(livraison);
+            }
+
+            System.out.println("Nombre de livraisons récupérées : " + livraisons.size());
+            for (Livraison l : livraisons) {
+                System.out.println(l);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return livraisons;
+
     }
 
 }

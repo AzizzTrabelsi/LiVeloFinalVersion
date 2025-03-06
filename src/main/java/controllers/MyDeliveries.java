@@ -4,38 +4,31 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import models.Commande;
+import models.Facture;
+import models.User;
+import models.statutlCommande;
+import services.CrudCommande;
+import services.CrudFacture;
+import services.CrudUser;
 
-import models.*;
-import services.*;
-
-
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
-
-import java.util.Date;
-
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AvailableDeliveries implements Initializable {
-
-
-
-
-
-
+public class MyDeliveries implements Initializable {
 
     @FXML
     private ImageView backButton;
@@ -44,26 +37,18 @@ public class AvailableDeliveries implements Initializable {
     private VBox ordersContainer;
 
 
-    private int userId;
-    private final User user = new User();
+
     private final CrudCommande crudCommande = new CrudCommande();
     private final CrudFacture crudFacture = new CrudFacture();
     private final CrudUser crudUser = new CrudUser();
-    private final CrudLivraison crudLivraison = new CrudLivraison();
-    private final CrudZone crudZone = new CrudZone();
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    private CrudAvis crudAvis= new CrudAvis();
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getUser();
         Platform.runLater(this::loadAvailableOrders);
     }
 
-    void getUser(){
-        this.userId=crudAvis.getUser().getId();
-    }
+
 
     @FXML
     private void navigerVersHomeLivreur() {
@@ -76,11 +61,10 @@ public class AvailableDeliveries implements Initializable {
             e.printStackTrace();
         }
     }
-
     private void loadAvailableOrders() {
         ordersContainer.getChildren().clear();  // Nettoyer l'affichage
 
-        List<Commande> commandes = crudCommande.getCommandesByStatut("Processing"); // Récupérer commandes en attente
+        List<Commande> commandes = crudCommande.getCommandesByStatut("Shipping"); // Récupérer commandes en attente
         for (Commande commande : commandes) {
             HBox commandeBox = new HBox(100); // Une ligne par commande
             commandeBox.setStyle(
@@ -130,48 +114,27 @@ public class AvailableDeliveries implements Initializable {
             Text montantTotal = new Text("Total: " + facture.getMontant() + "TND");
             System.out.println("aaaaaa kbal affichage"+IDcommande.getText()+"name="+clientName.getText()+"montant="+montantTotal.getText());
             // Bouton pour accepter la commande
-            Button acceptButton = new Button("Accepter");
+            Button acceptButton = new Button("delivered");
             acceptButton.setStyle("-fx-background-color: #398c3e; -fx-text-fill: white; -fx-font-weight: bold;");
-            acceptButton.setOnAction(event -> acceptOrder(commande));
+            acceptButton.setOnAction(event -> delivreOrder(commande));
 
             commandeBox.getChildren().addAll(IDcommande, clientName, montantTotal,Adress, acceptButton);
             ordersContainer.getChildren().add(commandeBox);
         }
     }
 
-    private void acceptOrder(Commande commande) {
-        commande.setStatut(statutlCommande.Shipping); // Mettre à jour le statut
+    private void delivreOrder(Commande commande) {
+        commande.setStatut(statutlCommande.Delivered); // Mettre à jour le statut
         crudCommande.update(commande); // Sauvegarder en base
 
         // Afficher une confirmation
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Commande acceptée !", ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Commande delivered !", ButtonType.OK);
         alert.showAndWait();
 
         loadAvailableOrders(); // Rafraîchir la liste
 
-        user.setId(userId );
-        Facture f  = crudFacture.getByCommandID(commande.getId_Commande());
-
-        Livraison livraison =new Livraison(commande.getId_Commande(), commande.getCreated_by(), new Date(),f.getIdFacture(), /*zone id*/ 3
-                ,  user);
-        //navigate to my livraison
-        crudLivraison.add(livraison);
-        navigateToMyDelivry();
+        navigerVersHomeLivreur();
     }
-    @FXML
-    private void navigateToMyDelivry(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MyDeliveries.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
 
 
 }

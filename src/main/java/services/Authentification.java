@@ -29,7 +29,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Authentification implements interfaces.IServiceAuth {
     Connection conn = MyDatabase.getInstance().getConnection();
     private static final HashMap<String, String> resetCodes = new HashMap<>();
-    private static String token;
+
+    private static  String token;
+
+   
 
 
     public static void setToken(String t) {
@@ -47,6 +50,8 @@ public class Authentification implements interfaces.IServiceAuth {
 
             if (rs.next()) {
                 String hashedPassword = rs.getString("password");
+
+                System.out.println(hashedPassword);
                 if (BCrypt.checkpw(password, hashedPassword)) {
                     // Création de l'objet User
                     String typeVehicule = rs.getString("type_vehicule");
@@ -74,11 +79,15 @@ public class Authentification implements interfaces.IServiceAuth {
                             rs.getString("cin")
                     );
 
+
+ 
                      Authentification.setToken(generateToken(user));
+
                     System.out.println("Connexion réussie. Token généré : " + token);
                     // Stocker le token dans la variable statique
                     setToken(token);
                     JSONObject userInfo = decodeToken(token);
+                    System.out.println(userInfo);
                     if (userInfo != null) {
                         System.out.println("Informations de l'utilisateur : " + userInfo.toJSONString());
                     }
@@ -95,6 +104,7 @@ public class Authentification implements interfaces.IServiceAuth {
         }
         return null;
     }
+
 
     // Méthode pour stocker le token
     public static void setToken(String t) {
@@ -147,7 +157,6 @@ public class Authentification implements interfaces.IServiceAuth {
         }
         return -1; // Retourne -1 si l'ID n'est pas trouvé
     }
-
 
 
     public JSONObject decodeToken(String token) {

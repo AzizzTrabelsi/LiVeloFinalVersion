@@ -11,7 +11,9 @@
     <left>
         <AnchorPane prefHeight="599.0" prefWidth="250.0" style="-fx-background-color: #dbefe1;" BorderPane.alignment="CENTER">
             <children>
+
                 <AnchorPane fx:id="anAvdeliveries" layoutX="-1.0" layoutY="54.0" onMouseClicked="#navigateToAvailableDeliveries" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="286.0" style="-fx-cursor: hand;">
+
                     <children>
                         <Text fill="#398c3e" layoutX="64.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Deliveries ">
                             <font>
@@ -25,7 +27,7 @@
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="anHistory" layoutX="-1.0" layoutY="103.0" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="46.0" prefWidth="285.0" style="-fx-cursor: hand;">
+                <AnchorPane fx:id="anHistory" layoutX="-1.0" layoutY="103.0" onMouseClicked="#navigateToHistory" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="46.0" prefWidth="285.0" style="-fx-cursor: hand;">
                     <children>
                         <Text fill="#398c3e" layoutX="67.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My history">
                             <font>
@@ -34,21 +36,21 @@
                         </Text>
                         <ImageView fitHeight="31.0" fitWidth="37.0" layoutX="21.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@image/clock.png" />
+                                <Image url="@image/téléchargement.png" />
                             </image>
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="anFeedbacks" layoutY="169.0" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="287.0" style="-fx-cursor: hand;">
+                <AnchorPane fx:id="anFeedbacks" layoutY="169.0" onMouseClicked="#navigateToMyDelivery" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="287.0" style="-fx-cursor: hand;">
                     <children>
-                        <Text fill="#398c3e" layoutX="67.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Feedbacks" wrappingWidth="212.07421875">
+                        <Text fill="#398c3e" layoutX="67.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Deliveries" wrappingWidth="212.07421875">
                             <font>
                                 <Font name="Bodoni MT" size="20.0" />
                             </font>
                         </Text>
                         <ImageView fitHeight="31.0" fitWidth="34.0" layoutX="19.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@image/good-feedback.png" />
+                                <Image url="@image/clock.png" />
                             </image>
                         </ImageView>
                     </children>
@@ -89,27 +91,29 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f8f8f8; -fx-border-width: 0;" BorderPane.alignment="CENTER">
             <children>
+
                 <AnchorPane fx:id="anAvdeliveriesMain" layoutX="35.0" layoutY="218.0" onMouseClicked="#navigateToAvailableDeliveries" prefHeight="134.0" prefWidth="357.0" style="-fx-background-color: white; -fx-border-color: #398c3e; -fx-border-radius: 10px; -fx-cursor: hand;">
+
                     <children>
                         <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="155.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@image/now-in-stock.png" />
                             </image>
                         </ImageView>
-                        <Text layoutX="79.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available deliveries" textAlignment="CENTER" wrappingWidth="199.7158203125">
+                        <Text layoutX="79.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Deliveries" textAlignment="CENTER" wrappingWidth="199.7158203125">
                             <font>
                                 <Font name="Bodoni MT" size="23.0" />
                             </font>
                         </Text>
                     </children></AnchorPane>
-                <AnchorPane fx:id="anFeedbacksMain" layoutX="224.0" layoutY="385.0" prefHeight="143.0" prefWidth="357.0" style="-fx-background-color: white; -fx-border-color: #398c3e; -fx-border-radius: 10px; -fx-cursor: hand;">
+                <AnchorPane fx:id="anFeedbacksMain" layoutX="224.0" layoutY="385.0" onMouseClicked="#navigateToMyDelivery" prefHeight="143.0" prefWidth="357.0" style="-fx-background-color: white; -fx-border-color: #398c3e; -fx-border-radius: 10px; -fx-cursor: hand;">
                     <children>
                         <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="155.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@image/good-feedback.png" />
+                                <Image url="@image/clock.png" />
                             </image>
                         </ImageView>
-                        <Text layoutX="98.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Feedbacks" textAlignment="CENTER" wrappingWidth="162.138671875">
+                        <Text layoutX="98.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Deliveries" textAlignment="CENTER" wrappingWidth="162.138671875">
                             <font>
                                 <Font name="Bodoni MT" size="23.0" />
                             </font>
@@ -126,14 +130,14 @@
                         <Font name="Bodoni MT" size="22.0" />
                     </font>
                 </Text>
-                <AnchorPane fx:id="anHistoryMain" layoutX="416.0" layoutY="214.0" prefHeight="143.0" prefWidth="357.0" style="-fx-background-color: white; -fx-border-color: #398c3e; -fx-border-radius: 10px; -fx-cursor: hand;">
+                <AnchorPane fx:id="anHistoryMain" layoutX="416.0" layoutY="214.0" onMouseClicked="#navigateToHistory" prefHeight="143.0" prefWidth="357.0" style="-fx-background-color: white; -fx-border-color: #398c3e; -fx-border-radius: 10px; -fx-cursor: hand;">
                     <children>
                         <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="155.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@image/clock.png" />
+                                <Image url="@image/téléchargement.png" />
                             </image>
                         </ImageView>
-                        <Text layoutX="87.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My history" textAlignment="CENTER" wrappingWidth="183.88037109375">
+                        <Text layoutX="87.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My History" textAlignment="CENTER" wrappingWidth="183.88037109375">
                             <font>
                                 <Font name="Bodoni MT" size="23.0" />
                             </font>

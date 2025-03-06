@@ -4,38 +4,31 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import models.*;
-import services.*;
+import services.CrudCommande;
+import services.CrudFacture;
+import services.CrudLivraison;
+import services.CrudUser;
 
-
-import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
-
-import java.util.Date;
-
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
-public class AvailableDeliveries implements Initializable {
-
-
-
-
-
-
+public class MyHistoeyController implements Initializable {
 
     @FXML
     private ImageView backButton;
@@ -43,27 +36,16 @@ public class AvailableDeliveries implements Initializable {
     @FXML
     private VBox ordersContainer;
 
-
-    private int userId;
-    private final User user = new User();
-    private final CrudCommande crudCommande = new CrudCommande();
-    private final CrudFacture crudFacture = new CrudFacture();
-    private final CrudUser crudUser = new CrudUser();
     private final CrudLivraison crudLivraison = new CrudLivraison();
-    private final CrudZone crudZone = new CrudZone();
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    private CrudAvis crudAvis= new CrudAvis();
+    private final CrudCommande crudCommande = new CrudCommande();
+    private final CrudUser crudUser = new CrudUser();
+    private final CrudFacture crudFacture = new CrudFacture();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getUser();
         Platform.runLater(this::loadAvailableOrders);
     }
 
-    void getUser(){
-        this.userId=crudAvis.getUser().getId();
-    }
+
 
     @FXML
     private void navigerVersHomeLivreur() {
@@ -76,14 +58,16 @@ public class AvailableDeliveries implements Initializable {
             e.printStackTrace();
         }
     }
-
     private void loadAvailableOrders() {
         ordersContainer.getChildren().clear();  // Nettoyer l'affichage
 
-        List<Commande> commandes = crudCommande.getCommandesByStatut("Processing"); // Récupérer commandes en attente
+        List<Livraison> livraisons = crudLivraison.gethistorylivraisonbyid_livreur(SignIn.id_User); // Récupérer livraisons en attente
+        List<Commande> commandes = livraisons.stream()
+                .map(livraison -> crudCommande.getById(livraison.getCommandeId())) // Récupérer la commande associée
+                .toList();
         for (Commande commande : commandes) {
-            HBox commandeBox = new HBox(100); // Une ligne par commande
-            commandeBox.setStyle(
+            HBox livraisonBox = new HBox(100); // Une ligne par livraison
+            livraisonBox.setStyle(
                     "-fx-background-color: linear-gradient(to bottom, #ffffff, #f8f8f8); " + // Dégradé subtil
                             "-fx-padding: 15px; " + // Plus d'espace intérieur
                             "-fx-border-radius: 12px; " + // Coins arrondis
@@ -92,8 +76,8 @@ public class AvailableDeliveries implements Initializable {
                             "-fx-border-width: 1px; " + // Épaisseur de la bordure
                             "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 5);" // Ombre légère
             );
-            commandeBox.setOnMouseEntered(event -> {
-                commandeBox.setStyle(
+            livraisonBox.setOnMouseEntered(event -> {
+                livraisonBox.setStyle(
                         "-fx-background-color: linear-gradient(to bottom, #ffffff, #f0f0f0); " + // Légèrement plus foncé
                                 "-fx-padding: 15px; " +
                                 "-fx-border-radius: 12px; " +
@@ -106,8 +90,8 @@ public class AvailableDeliveries implements Initializable {
                                 "-fx-transition: all 0.3s ease-in-out;"
                 );
             });
-            commandeBox.setOnMouseExited(event -> {
-                commandeBox.setStyle(
+            livraisonBox.setOnMouseExited(event -> {
+                livraisonBox.setStyle(
                         "-fx-background-color: linear-gradient(to bottom, #ffffff, #f8f8f8); " +
                                 "-fx-padding: 15px; " +
                                 "-fx-border-radius: 12px; " +
@@ -120,56 +104,22 @@ public class AvailableDeliveries implements Initializable {
                                 "-fx-transition: all 0.3s ease-in-out;"
                 );
             });
-            System.out.println("ena commande kbal me nhotha fi box"+commande);
-            // Infos de la commande
-            Text IDcommande= new Text("Order ID : " + commande.getId_Commande());
+            System.out.println("ena livraison kbal me nhotha fi box"+commande);
+            // Infos de la livraison
+            Text IDlivraison= new Text("Order ID : " + commande.getId_Commande());
             Text Adress= new Text("First adress  :" + commande.getAdresse_dep()+"\n Second Adress :" + commande.getAdresse_arr());
             User user=crudUser.getById(commande.getCreated_by());
             Text clientName = new Text("Client : " + user.getNom()+ " " + user.getPrenom());
             Facture facture=crudFacture.getByCommandID(commande.getId_Commande());
             Text montantTotal = new Text("Total: " + facture.getMontant() + "TND");
-            System.out.println("aaaaaa kbal affichage"+IDcommande.getText()+"name="+clientName.getText()+"montant="+montantTotal.getText());
-            // Bouton pour accepter la commande
-            Button acceptButton = new Button("Accepter");
-            acceptButton.setStyle("-fx-background-color: #398c3e; -fx-text-fill: white; -fx-font-weight: bold;");
-            acceptButton.setOnAction(event -> acceptOrder(commande));
+            System.out.println("aaaaaa kbal affichage"+IDlivraison.getText()+"name="+clientName.getText()+"montant="+montantTotal.getText());
+            // Bouton pour accepter la livraison
 
-            commandeBox.getChildren().addAll(IDcommande, clientName, montantTotal,Adress, acceptButton);
-            ordersContainer.getChildren().add(commandeBox);
+
+            livraisonBox.getChildren().addAll(IDlivraison, clientName, montantTotal,Adress);
+            ordersContainer.getChildren().add(livraisonBox);
         }
     }
-
-    private void acceptOrder(Commande commande) {
-        commande.setStatut(statutlCommande.Shipping); // Mettre à jour le statut
-        crudCommande.update(commande); // Sauvegarder en base
-
-        // Afficher une confirmation
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Commande acceptée !", ButtonType.OK);
-        alert.showAndWait();
-
-        loadAvailableOrders(); // Rafraîchir la liste
-
-        user.setId(userId );
-        Facture f  = crudFacture.getByCommandID(commande.getId_Commande());
-
-        Livraison livraison =new Livraison(commande.getId_Commande(), commande.getCreated_by(), new Date(),f.getIdFacture(), /*zone id*/ 3
-                ,  user);
-        //navigate to my livraison
-        crudLivraison.add(livraison);
-        navigateToMyDelivry();
-    }
-    @FXML
-    private void navigateToMyDelivry(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MyDeliveries.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 
 

@@ -46,6 +46,7 @@ public class MarketClient implements Initializable {
         void navigateToHome(MouseEvent event) {
 
         }
+
         @FXML
          void navigateTochatbot() {
                 try {
@@ -62,6 +63,7 @@ public class MarketClient implements Initializable {
                         System.out.println("Error loading popupchatbot.fxml.");
                 }
         }
+
 
         public static int commandeId = -1;
         public static void setCommandeId(int id) {

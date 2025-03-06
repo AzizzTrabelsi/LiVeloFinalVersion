@@ -4,9 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -35,6 +37,8 @@ public class avisAdmin implements Initializable {
     private VBox vListUsers;
     @FXML
     private ImageView imLogo;
+    @FXML
+    private AnchorPane anRiders;
 
     @FXML
     void hoverEffect(MouseEvent event) {
@@ -304,24 +308,17 @@ public class avisAdmin implements Initializable {
 
     }
 
-/*
-    @FXML
-    void navigateToHome(MouseEvent event) {
-        try {
-            // Load the SignUp.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeAdmin.fxml"));
-            Scene signUpScene = new Scene(loader.load());
 
-            // Get the current stage and set the new scene
-            Stage stage = (Stage) imLogo.getScene().getWindow();
-            stage.setScene(signUpScene);
-            stage.show();
+    @FXML
+    private void navigerVersHomeadmin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avisAdmin.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) anRiders.getScene().getWindow();
+            stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error loading SignUp.fxml.");
         }
+
     }
-*/
-
-
 }
