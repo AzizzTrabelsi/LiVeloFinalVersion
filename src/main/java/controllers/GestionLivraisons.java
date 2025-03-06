@@ -266,7 +266,8 @@ public class GestionLivraisons implements Initializable {
                         rs.getInt("created_by"),
                         rs.getDate("created_at"),
                         rs.getInt("factureId"),
-                        rs.getInt("zoneId")
+                        rs.getInt("zoneId"),
+                        crudUser.getById(rs.getInt("id_livreur"))
                 );
                 livraisons.add(livraison);
             }

@@ -24,14 +24,14 @@
                                 <Image url="@image/shopping-cart.png" />
                             </image>
                         </ImageView>
-                        <Text fill="#398c3e" layoutX="46.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vos Livraison" wrappingWidth="212.0">
+                        <Text fill="#398c3e" layoutX="46.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Delivery" wrappingWidth="212.0">
                             <font>
                                 <Font name="Bodoni MT" size="20.0" />
                             </font>
                         </Text>
                     </children>
                 </AnchorPane>
-                <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Partagez votre avis et faites la différence" wrappingWidth="236.0">
+                <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Share your opinion and make a difference" wrappingWidth="236.0">
                <font>
                   <Font name="Arabic Typesetting" size="24.0" />
                </font></Text>
@@ -46,7 +46,7 @@
                         <Image url="@image/setting-removebg-preview.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="68.0" fitWidth="68.0" layoutX="43.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="backButton" fitHeight="68.0" fitWidth="68.0" layoutX="43.0" layoutY="7.0" onMouseClicked="#navigateToHomeClient" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@image/logo_final-removebg-preview.png" />
                     </image>
@@ -75,7 +75,7 @@
                                                                 <Font size="20.0" />
                                                             </font>
                                           </Label>
-                                                        <Label prefHeight="30.0" prefWidth="149.0" text="          Crée le">
+                                                        <Label prefHeight="30.0" prefWidth="149.0" text="create at">
                                                             <HBox.margin>
                                                                 <Insets right="20.0" />
                                                             </HBox.margin>
@@ -91,7 +91,7 @@
                                                                 <Font size="20.0" />
                                                             </font>
                                           </Label>
-                                                        <Label prefHeight="30.0" prefWidth="153.0" text="             Prix">
+                                                        <Label prefHeight="30.0" prefWidth="153.0" text="          price">
                                                             <font>
                                                                 <Font size="20.0" />
                                                             </font>

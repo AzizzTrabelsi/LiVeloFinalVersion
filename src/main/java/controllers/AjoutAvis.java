@@ -3,6 +3,7 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,11 +14,13 @@ import models.Avis;
 import models.Livraison;
 import services.CrudAvis;
 
+import java.net.URL;
 import java.util.Date;
+import java.util.ResourceBundle;
 
-public class AjoutAvis {
+public class AjoutAvis implements Initializable {
     private CrudAvis crudAvis = new CrudAvis();
-    private int userId =53;
+    private int userId ;
 
     @FXML
     private TextField avisIdField;
@@ -51,6 +54,7 @@ public class AjoutAvis {
             ctrl.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
         }
     }
+
     Livraison livraison;
     void setLivraison(Livraison l){
         this.livraison = l;
@@ -61,7 +65,7 @@ public class AjoutAvis {
             Stage stage = (Stage) avisIdField.getScene().getWindow(); // Get reference to the login window's stage
             stage.setTitle("Gestion Avis");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LivraisonClient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LivraisonClientt.fxml"));
             Parent p = loader.load();
             Scene scene = new Scene(p);
 
@@ -75,6 +79,11 @@ public class AjoutAvis {
 
     }
 
-
-
+    void getUser(){
+        this.userId=crudAvis.getUser().getId();
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        getUser();
+    }
 }

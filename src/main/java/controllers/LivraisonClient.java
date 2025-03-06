@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +22,7 @@ import models.*;
 import services.*;
 import utils.MyDatabase;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,15 +31,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.Event;
+import javafx.scene.Node;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 
-public class LivraisonClient implements Initializable {
+
+public class LivraisonClient  implements Initializable {
 
     private CrudFacture crudFacture = new CrudFacture();
     private CrudUser crudUser = new CrudUser();
+    private CrudAvis crudAvis = new CrudAvis();
     private CrudZone crudZone = new CrudZone();
-    private CrudLivraison crudLivraison = new CrudLivraison();
     private CrudCommande crudCommande = new CrudCommande();
-    private int userId = 52;
+    private int userId ;
 
     @FXML
     private AnchorPane anPendingUsers;
@@ -47,17 +55,35 @@ public class LivraisonClient implements Initializable {
     @FXML
     private VBox vListUsers;
 
+    @FXML
+    private ImageView backButton;
+
     private Connection conn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        conn = MyDatabase.getInstance().getConnection();
-        afficherLivraisons();
-
+        Platform.runLater(() -> {
+            System.out.println("initialize() exécuté !");
+            this.conn = MyDatabase.getInstance().getConnection();
+            getUser();
+            afficherLivraisons();
+        });
     }
+
+
+    void getUser() {
+        if (crudAvis.getUser() != null) {
+            this.userId = crudAvis.getUser().getId();
+            System.out.println("Utilisateur récupéré, ID = " + this.userId);
+        } else {
+            System.out.println("Erreur: Aucun utilisateur trouvé !");
+        }
+    }
+
 
     @FXML
     void goAjouterAvis(ActionEvent event, Livraison livraison) {
+
         try {
             Stage stage = (Stage) headerHBox.getScene().getWindow(); // Get reference to the login window's stage
             stage.setTitle("Ajouter Avis");
@@ -76,10 +102,13 @@ public class LivraisonClient implements Initializable {
             e.printStackTrace();
             // Handle navigation failure
         }
+
+
     }
 
     @FXML
     private void afficherLivraisons() {
+
         try {
 
             vListUsers.getChildren().clear(); // Nettoyer l'affichage avant de le remplir
@@ -152,6 +181,8 @@ public class LivraisonClient implements Initializable {
             e.printStackTrace();
             // Handle navigation failure
         }
+
+
     }
 
 
@@ -171,7 +202,9 @@ public class LivraisonClient implements Initializable {
                             rs.getInt("created_by"),
                             rs.getDate("created_at"),
                             rs.getInt("factureId"),
-                            rs.getInt("zoneId")
+                            rs.getInt("zoneId"),
+                            crudUser.getById(rs.getInt("id_livreur"))
+
                     );
                     livraisons.add(livraison);
                 }
@@ -181,4 +214,18 @@ public class LivraisonClient implements Initializable {
         }
         return livraisons;
     }
+
+    @FXML
+    private void navigateToHomeClient(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/homeClient.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

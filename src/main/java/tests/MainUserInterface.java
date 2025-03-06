@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class MainUserInterface extends Application {
 
@@ -29,7 +30,8 @@ public class MainUserInterface extends Application {
     public void start(Stage primaryStage) {
 
         instance=this;
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SignUp.fxml"));
+
 
         try {
             Parent root =loader.load();
@@ -53,7 +55,7 @@ public class MainUserInterface extends Application {
             stage.setScene(newScene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 }

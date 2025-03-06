@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.homeClient">
+    <top>
+        <AnchorPane prefHeight="68.0" prefWidth="1102.0" style="-fx-background-color: #dbefe1;" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="imLogo" fitHeight="55.0" fitWidth="93.0" layoutX="25.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                    <image>
+                        <Image url="@image/logo_final-removebg-preview.png" />
+                    </image>
+                </ImageView>
+            <ImageView fx:id="history" fitHeight="44.0" fitWidth="58.0" layoutX="129.0" layoutY="12.0" onMouseClicked="#navigerVersHistory" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/clock.png" />
+               </image>
+            </ImageView>
+                <AnchorPane fx:id="anLogout" layoutX="778.0" layoutY="15.0" onMouseClicked="#logout" prefHeight="44.0" prefWidth="291.0" style="-fx-cursor: hand;">
+                    <children>
+                        <Text fill="#398c3e" layoutX="209.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logout" wrappingWidth="64.07421875">
+                            <font>
+                                <Font name="Bodoni MT" size="20.0" />
+                            </font>
+                        </Text>
+                        <ImageView fitHeight="39.0" fitWidth="26.0" layoutX="277.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@image/logout.png" />
+                            </image>
+                        </ImageView>
+                        <ComboBox fx:id="combo" layoutX="6.0" layoutY="7.0" onAction="#handleCategorySelection" prefHeight="26.0" prefWidth="163.0" promptText="categories" />
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </top>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f8f8f8; -fx-border-width: 0;" BorderPane.alignment="CENTER">
+            <children>
+                <Text layoutX="428.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-style: bold;" text="Welcome to Livelo!" textAlignment="CENTER" wrappingWidth="230.45458984375">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Text>
+                <Text fill="#0000009e" layoutX="273.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With livelo, every delivery is a step towards a greener future">
+                    <font>
+                        <Font name="Bodoni MT" size="22.0" />
+                    </font>
+                </Text>
+                <Text fill="#6562629e" layoutX="350.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your request is in the process of being treated in English">
+                    <font>
+                        <Font name="Bodoni MT" size="17.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="336.0" fitWidth="689.0" layoutX="273.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@image/5302.jpg" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

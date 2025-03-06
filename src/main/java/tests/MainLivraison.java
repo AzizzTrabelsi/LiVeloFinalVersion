@@ -2,12 +2,14 @@ package tests;
 
 
 import models.Livraison;
+import models.User;
 import services.CrudLivraison;
 import java.util.Date;
 
 public class MainLivraison {
     public static void main(String[] args) {
-
+        User user = new User();
+        user.setId(52);
         // Création d'une nouvelle instance de Livraison
         Livraison nouvelleLivraison = new Livraison(
                 1,                          // ID de la livraison
@@ -15,7 +17,8 @@ public class MainLivraison {
                 53,                        // ID de l'utilisateur (createdBy)
                 new Date(),                 // Date de la livraison (createdAt)
                 3,                        // ID de la facture (factureId)
-                404                         // ID de la zone (zoneId)
+                404,                         // ID de la zone (zoneId)
+                user
         );
 
         // Instanciation du service de gestion des livraisons

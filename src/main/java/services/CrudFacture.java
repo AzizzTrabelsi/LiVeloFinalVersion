@@ -113,17 +113,43 @@ public class CrudFacture  implements IServiceCrud<Facture> {
 
             if (rs.next()) {
                 Facture facture = new Facture(
-                rs.getInt("idFacture"),
-                rs.getFloat(2),
-                rs.getDate("date"),
-                type_paiement.valueOf(rs.getString(4).toUpperCase()),
-                rs.getInt(5),
-                rs.getInt(6)
+                        rs.getInt("idFacture"),
+                        rs.getFloat(2),
+                        rs.getDate("date"),
+                        type_paiement.valueOf(rs.getString(4).toUpperCase()),
+                        rs.getInt(5),
+                        rs.getInt(6)
                 );
                 System.out.println("Facture trouvé : " + facture);
                 return facture;
             } else {
                 System.out.println("Aucune facture trouvé avec l'ID : " + id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public Facture getByCommandID(int id) {
+        System.out.println("ena id taa facture bel commande id"+id);
+        String query = "SELECT * FROM `facture` WHERE `commandeId` = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Facture facture = new Facture(
+                        rs.getInt("idFacture"),
+                        rs.getFloat(2),
+                        rs.getDate("date"),
+                        type_paiement.valueOf(rs.getString(4).toUpperCase()),
+                        rs.getInt(5),
+                        rs.getInt(6)
+                );
+                System.out.println("Facture trouvé  : " + facture);
+                return facture;
+            } else {
+                System.out.println("Aucune facture trouvé avec l'ID de commande  : " + id);
             }
         } catch (SQLException e) {
             e.printStackTrace();

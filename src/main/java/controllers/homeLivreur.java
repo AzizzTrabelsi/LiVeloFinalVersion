@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -73,5 +74,44 @@ public class homeLivreur {
             System.out.println("Error loading SignUp.fxml.");
         }
     }
+
+    @FXML
+    void navigateToHistory(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MyHistory.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) imLogo.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    @FXML
+    void navigateToAvailableDelivry(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AvailableDeliveries.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) imLogo.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void navigateToMyDelivery(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MyDeliveries.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) imLogo.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

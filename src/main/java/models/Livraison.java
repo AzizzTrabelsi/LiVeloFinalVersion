@@ -12,30 +12,33 @@ public class Livraison {
     private Date createdAt;
     private int factureId;
     private int zoneId;
+    private User user;
     private List<Avis> avisList = new ArrayList<>(); // 🔹 Relation One-to-Many avec Avis
 
-    public Livraison(int idLivraison, int commandeId, int createdBy, Date createdAt, int factureId, int zoneId) {
+    public Livraison(int idLivraison, int commandeId, int createdBy, Date createdAt, int factureId, int zoneId, User user) {
         this.idLivraison = idLivraison;
         this.commandeId = commandeId;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.factureId = factureId;
         this.zoneId = zoneId;
+        this.user = user;
     }
-    public Livraison(int idLivraison, Date dateLivraison, int adresse) {
+    public Livraison(int idLivraison, Date dateLivraison, int adresse, User user) {
         this.idLivraison = idLivraison;
         this.createdAt = dateLivraison;
         this.zoneId= adresse;
-
+        this.user = user;
     }
 
 
-    public Livraison(int commandeId, int createdBy, Date createdAt, int factureId, int zoneId) {
+    public Livraison(int commandeId, int createdBy, Date createdAt, int factureId, int zoneId, User user) {
         this.commandeId = commandeId;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.factureId = factureId;
         this.zoneId = zoneId;
+        this.user = user;
     }
 
     public int getIdLivraison() {
@@ -94,7 +97,13 @@ public class Livraison {
         this.avisList = avisList;
     }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {
@@ -106,6 +115,7 @@ public class Livraison {
                 ", factureId=" + factureId +
                 ", zoneId=" + zoneId +
                 ", avisList=" + avisList + // 🔹
+                ", livreur=" + user+
                 '}';
     }
 }

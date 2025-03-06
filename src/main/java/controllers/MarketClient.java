@@ -16,6 +16,7 @@ import models.Article;
 import models.Commande;
 import models.statutlCommande;
 import services.CrudArticle;
+import services.CrudCategorie;
 import services.CrudCommande;
 
 import java.awt.*;
@@ -27,7 +28,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MarketClient implements Initializable {
-
+        private final CrudArticle su = new CrudArticle();
+        private CrudCategorie crudCategorie = new CrudCategorie();
         private List<Article> articleList;
         @FXML
         private TextField anSearch;
@@ -38,12 +40,12 @@ public class MarketClient implements Initializable {
 
         @FXML
         private ImageView imLogo;
-        private CrudArticle su = new CrudArticle();
+
         @FXML
         void navigateToHome(MouseEvent event) {
 
         }
-        private static int commandeId = -1;
+        public static int commandeId = -1;
         public static void setCommandeId(int id) {
                 commandeId = id;
         }
@@ -59,42 +61,68 @@ public class MarketClient implements Initializable {
                 nouvelleCommande.setType_livraison("Standard");
                 nouvelleCommande.setHoraire(new Timestamp(System.currentTimeMillis()));
                 nouvelleCommande.setStatut(statutlCommande.Processing);
-                nouvelleCommande.setCreated_by(55);
+                nouvelleCommande.setCreated_by(53);
 
                 crudCommande.add(nouvelleCommande);
                 System.out.println("Commande ID enregistrée dans MarketClient: " + getCommandeId());
         }
-        @Override
-        public void initialize(URL url, ResourceBundle rb) {
+
+
+
+        private int categoryId = -1; // Définit une valeur par défaut pour éviter 0
+        private boolean isCategorySet = false;
+
+        // ✅ Méthode pour définir l'ID de la catégorie AVANT de charger les articles
+        public void setCategoryId(int categoryId) {
+                this.categoryId = categoryId;
+                this.isCategorySet = true;
+                System.out.println("✅ ID de catégorie reçu dans MarketClient : " + categoryId);
+
+                // Si l'interface est déjà chargée, affiche les articles immédiatement
+                if (grid != null) {
+                        loadArticlesByCategory();
+                }
+        }
+        // ✅ Sépare la logique de chargement des articles
+        private void loadArticlesByCategory() {
+                System.out.println("🔄 Chargement des articles pour catégorie ID : " + categoryId);
+
+                if (categoryId <= 0) {
+                        System.out.println("⚠️ ID de catégorie invalide !");
+                        return;
+                }
+
+                List<Article> articles = su.getArticlesByCategoryId(categoryId);
+                System.out.println("🛒 Articles trouvés : " + articles.size());
+
+                if (articles.isEmpty()) {
+                        System.out.println("⚠️ Aucun article trouvé !");
+                        return;
+                }
+
                 int column = 0;
                 int row = 0;
-                ajouterNouvelleCommande();
+
                 try {
-                        for (Article a : su.getAll()) {
-                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/article.fxml"));
+                        for (Article a : articles) {
+                                System.out.println("📦 Article trouvé : " + a.getNom());
+
+                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Article.fxml")); // Assure-toi que c'est le bon fichier
                                 VBox articleBox = fxmlLoader.load();
 
-                                // Vérifier le contrôleur
                                 article articleController = fxmlLoader.getController();
                                 if (articleController == null) {
                                         System.out.println("❌ articleController est NULL !");
                                         continue;
                                 }
 
-                                // Assigner les données
                                 articleController.setData(a);
-
-                                // Ajouter un événement de clic
                                 articleBox.setOnMouseClicked(event -> afficherPopupArticle(a));
 
-                                // Ajouter à la grille
-                                // ✅ Ajouter à FlowPane (de gauche à droite)
                                 grid.getChildren().add(articleBox);
-
-                                // ✅ Ajouter un petit espace entre les articles
                                 FlowPane.setMargin(articleBox, new Insets(10, 10, 10, 10));
 
-                                // Gérer le changement de ligne
+                                column++;
                                 if (column == 6) {
                                         column = 0;
                                         row++;
@@ -103,6 +131,18 @@ public class MarketClient implements Initializable {
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
+        }
+        @Override
+        public void initialize(URL url, ResourceBundle rb) {
+                int column = 0;
+                int row = 0;
+                System.out.println("🔄 MarketClient initialisé, attente de categoryId...");
+                ajouterNouvelleCommande();
+                // Si l'ID a déjà été défini, charge les articles directement
+                if (isCategorySet) {
+                        loadArticlesByCategory();
+                }
+
                 /*int column = 0;
                 int row = 0;
 

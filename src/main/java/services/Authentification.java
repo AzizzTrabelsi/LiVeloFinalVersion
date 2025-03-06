@@ -29,6 +29,13 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Authentification implements interfaces.IServiceAuth {
     Connection conn = MyDatabase.getInstance().getConnection();
     private static final HashMap<String, String> resetCodes = new HashMap<>();
+    private static  String token;
+
+    public static String getToken() {
+        return token;
+    }
+
+
 
     @Override
     public String login(String cin, String password) {
@@ -39,6 +46,8 @@ public class Authentification implements interfaces.IServiceAuth {
 
             if (rs.next()) {
                 String hashedPassword = rs.getString("password");
+
+                System.out.println(hashedPassword);
                 if (BCrypt.checkpw(password, hashedPassword)) {
                     // Création de l'objet User
                     String typeVehicule = rs.getString("type_vehicule");
@@ -67,9 +76,11 @@ public class Authentification implements interfaces.IServiceAuth {
                     );
 
                     String token = generateToken(user);
+                    Authentification.token = token;
                     System.out.println("Connexion réussie. Token généré : " + token);
 
                     JSONObject userInfo = decodeToken(token);
+                    System.out.println(userInfo);
                     if (userInfo != null) {
                         System.out.println("Informations de l'utilisateur : " + userInfo.toJSONString());
                     }
@@ -86,9 +97,6 @@ public class Authentification implements interfaces.IServiceAuth {
         }
         return null;
     }
-
-
-
 
     private String generateToken(User user) {
         try {
@@ -122,7 +130,6 @@ public class Authentification implements interfaces.IServiceAuth {
         }
         return null;
     }
-
 
     public JSONObject decodeToken(String token) {
         try {

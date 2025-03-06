@@ -39,7 +39,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anRiders" layoutY="138.0" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="287.0" style="-fx-cursor: hand;">
+            <AnchorPane fx:id="anRiders" layoutY="138.0" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="287.0" style="-fx-cursor: hand;" onMouseClicked="#navigateToAvis">
                <children>
                   <Text fill="#398c3e" layoutX="67.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Riders performance" wrappingWidth="212.07421875">
                      <font>

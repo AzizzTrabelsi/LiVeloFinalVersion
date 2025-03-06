@@ -52,13 +52,10 @@ public class GestionArticle implements Initializable {
         // Afficher tous les utilisateurs au démarrage
         ShowByCategorie(null);
 
-        // Ajouter un écouteur sur le champ de recherche
         anSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
-                // Si le champ de recherche est vide, afficher tous les utilisateurs
                 loadArticle();
             } else {
-                // Sinon, effectuer une recherche
                 searchArticle(newValue);
             }
         });
@@ -66,7 +63,7 @@ public class GestionArticle implements Initializable {
 
     @FXML
     void Show(ActionEvent showEvent) {
-        hbHedha.getChildren().clear();  // Clear existing content
+        hbHedha.getChildren().clear();
 
         // Récupérer tous les articles
         List<Article> articleList = su.getAll();

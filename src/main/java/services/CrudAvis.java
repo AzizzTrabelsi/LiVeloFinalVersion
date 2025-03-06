@@ -3,6 +3,7 @@ package services;
 import interfaces.IServiceCrud;
 import models.Avis;
 import models.User;
+import net.minidev.json.JSONObject;
 import utils.Constants;
 import utils.MyDatabase;
 import models.Livraison;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrudAvis implements IServiceCrud<Avis> {
+
+
+    Authentification auth = new Authentification();
     CrudUser crudUser = new CrudUser();
     Connection conn = MyDatabase.getInstance().getConnection();
     private String emailAdmin = "ziedfilali272001@gmail.com";
@@ -117,7 +121,8 @@ public class CrudAvis implements IServiceCrud<Avis> {
                     int id = resultSet.getInt("idLivraison");
                     Date dateLivraison = resultSet.getDate("created_at");
                     int adresse = resultSet.getInt("zoneId");
-                    livraison = new Livraison(id, dateLivraison, adresse);
+                    User user = crudUser.getById(resultSet.getInt("id_livreur"));
+                    livraison = new Livraison(id, dateLivraison, adresse,user);
                 }
             }
         } catch (SQLException e) {
@@ -155,8 +160,10 @@ public class CrudAvis implements IServiceCrud<Avis> {
                             Date createdAtLivraison = livraisonRs.getDate("createdAt");
                             int factureId = livraisonRs.getInt("factureId");
                             int zoneId = livraisonRs.getInt("zoneId");
+                            User user = crudUser.getById(livraisonRs.getInt("id_livreur"));
+
                             // Crée l'objet Livraison
-                            livraison = new Livraison(livraisonId, commandeId, createdByLivraison, createdAtLivraison, factureId, zoneId);
+                            livraison = new Livraison(livraisonId, commandeId, createdByLivraison, createdAtLivraison, factureId, zoneId, user);
                         }
                     } catch (SQLException e) {
                         System.out.println("Erreur lors de la récupération de la livraison : " + e.getMessage());
@@ -250,8 +257,11 @@ public class CrudAvis implements IServiceCrud<Avis> {
                             Date createdAtLivraison = livraisonRs.getDate("created_at");
                             int factureId = livraisonRs.getInt("factureId");
                             int zoneId = livraisonRs.getInt("zoneId");
+
+                            User user = crudUser.getById(livraisonRs.getInt("id_livreur"));
+
                             // Créer l'objet Livraison
-                            livraison = new Livraison(livraisonId, commandeId, createdByLivraison, createdAtLivraison, factureId, zoneId);
+                            livraison = new Livraison(livraisonId, commandeId, createdByLivraison, createdAtLivraison, factureId, zoneId, user);
                         }
                     } catch (SQLException e) {
                         System.out.println("Erreur lors de la récupération de la livraison : " + e.getMessage());
@@ -316,8 +326,10 @@ public class CrudAvis implements IServiceCrud<Avis> {
                             Date createdAtLivraison = livraisonRs.getDate("created_at");
                             int factureId = livraisonRs.getInt("factureId");
                             int zoneId = livraisonRs.getInt("zoneId");
+                            User user = crudUser.getById(livraisonRs.getInt("id_livreur"));
+
                             // Créer l'objet Livraison
-                            livraison = new Livraison(livraisonId, commandeId, createdByLivraison, createdAtLivraison, factureId, zoneId);
+                            livraison = new Livraison(livraisonId, commandeId, createdByLivraison, createdAtLivraison, factureId, zoneId, user);
                         }
                     } catch (SQLException e) {
                         System.out.println("Erreur lors de la récupération de la livraison : " + e.getMessage());
@@ -349,4 +361,48 @@ public class CrudAvis implements IServiceCrud<Avis> {
 
         return avisList;
     }
+
+
+
+
+    public User getUser() {
+        // Get the token from Authentification class
+        String userJson = Authentification.getToken();
+
+        // Decode the token and get user information as a JSONObject
+        JSONObject userInfo = auth.decodeToken(userJson);
+
+        if (userInfo != null) {
+            // Extract user details from the decoded token
+            int id = (int) userInfo.get("idUser");
+            String nom = (String) userInfo.get("nom");
+            String prenom = (String) userInfo.get("prenom");
+            models.role_user role = models.role_user.valueOf((String) userInfo.get("role"));
+            boolean verified = (boolean) userInfo.get("verified");
+            String adresse = (String) userInfo.get("adresse");
+            String email = (String) userInfo.get("email");
+            String num_tel = (String) userInfo.get("num_tel");
+            String cin = (String) userInfo.get("cin");
+
+            // Handle type_vehicule which might be null
+            String typeVehiculeStr = (String) userInfo.get("type_vehicule");
+            models.type_vehicule typeVehicule = null;
+            if (typeVehiculeStr != null) {
+                try {
+                    typeVehicule = models.type_vehicule.valueOf(typeVehiculeStr);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Valeur de type_vehicule invalide : " + typeVehiculeStr);
+                }
+            }
+
+            // Create a User object with the decoded information
+            User user = new User(
+                    id, nom, prenom, role, verified, adresse, typeVehicule, email, null, num_tel, cin
+            );
+
+            return user;
+        }
+        return null;  // Return null if the token is invalid or decoding failed
+    }
+
 }
