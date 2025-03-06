@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="639.0" prefWidth="950.0" style="-fx-background-color: #dbefe1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StatisticsPartner">
+
+    <!-- Main Layout -->
+    <VBox alignment="TOP_CENTER" prefHeight="600" prefWidth="900" spacing="15" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
+
+        <!-- Header with Back Button -->
+        <HBox alignment="CENTER_LEFT" prefWidth="900" spacing="300.0">
+            <!-- Back Button with Image -->
+            <Button fx:id="btnBack" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="30" fitWidth="30">
+                        <image>
+                            <Image url="@image/chevron-left.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <!-- Title -->
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;" text=" Article Statistics" />
+        </HBox>
+
+        <!-- Main Content (Split Layout) -->
+        <SplitPane dividerPositions="0.5" prefHeight="500" prefWidth="850">
+            <items>
+
+                <!-- LEFT: Articles List -->
+                <ScrollPane fitToWidth="true" prefWidth="400">
+                    <VBox fx:id="articleListContainer" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10px;">
+                        <padding>
+                            <Insets bottom="10" left="10" right="10" top="10" />
+                        </padding>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- RIGHT: Orders Chart (Pie Chart) -->
+                <VBox alignment="CENTER" prefWidth="450">
+                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #34495E;" text="Most Ordered Articles" />
+                    <PieChart fx:id="pieChart" prefHeight="350" prefWidth="400" />
+                </VBox>
+
+            </items>
+        </SplitPane>
+    </VBox>
+
+</AnchorPane>

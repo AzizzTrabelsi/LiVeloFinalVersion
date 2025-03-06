@@ -50,6 +50,7 @@ public class avisAdmin implements Initializable {
 
     }
 
+
     private CrudUser crudUser = new CrudUser();
     private CrudAvis crudAvis = new CrudAvis();
     private List<Avis> avisList;

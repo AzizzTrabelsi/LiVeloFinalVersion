@@ -17,49 +17,7 @@
     <left>
         <AnchorPane prefHeight="610.0" prefWidth="255.0" style="-fx-background-color: #dbefe1;" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane fx:id="anPendingUsers" layoutX="-1.0" layoutY="35.0" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
-                    <children>
-                        <Text fill="#398c3e" layoutX="64.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pending users">
-                            <font>
-                                <Font name="Bodoni MT" size="20.0" />
-                            </font>
-                        </Text>
-                        <ImageView fitHeight="25.0" fitWidth="28.0" layoutX="25.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@image/verification.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
-                <AnchorPane fx:id="anUsers" layoutX="-1.0" layoutY="84.0" prefHeight="45.0" prefWidth="286.0" style="-fx-cursor: hand; -fx-background-color: #398c3e; -fx-border-radius: 0;">
-                    <children>
-                        <Text layoutX="67.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
-                            <font>
-                                <Font name="Bodoni MT" size="20.0" />
-                            </font>
-                        </Text>
-                        <ImageView fitHeight="22.0" fitWidth="21.0" layoutX="26.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@image/userBlack.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
-                <AnchorPane fx:id="anRiders" layoutY="138.0" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
-                    <children>
-                        <Text fill="#398c3e" layoutX="67.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Riders performance" wrappingWidth="212.07421875">
-                            <font>
-                                <Font name="Bodoni MT" size="20.0" />
-                            </font>
-                        </Text>
-                        <ImageView fitHeight="27.0" fitWidth="41.0" layoutX="26.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@image/helmet-removebg-preview.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
-                <AnchorPane fx:id="anOrder" layoutY="186.0" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
+                <AnchorPane fx:id="anOrder" layoutX="1.0" layoutY="84.0" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
                     <children>
                         <Text fill="#398c3e" layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Orders report" wrappingWidth="212.07421875">
                             <font>
@@ -73,7 +31,7 @@
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="anLogout" layoutX="1.0" layoutY="563.0" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
+                <AnchorPane fx:id="anLogout" layoutX="1.0" layoutY="563.0" onMouseClicked="#logout" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
                     <children>
                         <Text fill="#398c3e" layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logout" wrappingWidth="212.07421875">
                             <font>
@@ -87,30 +45,16 @@
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="anCategories" layoutX="1.0" layoutY="236.0" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
+                <AnchorPane fx:id="anCategories" layoutX="-11.0" layoutY="38.0" onMouseClicked="#navigateback" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand; -fx-background-color: #398c3e;">
                     <children>
-                        <Text fill="#398c3e" layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories" wrappingWidth="212.07421875">
+                        <Text layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories" wrappingWidth="212.07421875">
                             <font>
                                 <Font name="Bodoni MT" size="20.0" />
                             </font>
                         </Text>
                         <ImageView fitHeight="39.0" fitWidth="26.0" layoutX="23.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@image/menu.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
-                <AnchorPane fx:id="anCoverageArea" layoutX="2.0" layoutY="287.0" prefHeight="45.0" prefWidth="250.0" style="-fx-cursor: hand;">
-                    <children>
-                        <Text fill="#398c3e" layoutX="69.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coverage areas" wrappingWidth="212.07421875">
-                            <font>
-                                <Font name="Bodoni MT" size="20.0" />
-                            </font>
-                        </Text>
-                        <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="23.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@image/radar.png" />
+                                <Image url="@image/categorie.png" />
                             </image>
                         </ImageView>
                     </children>
@@ -121,7 +65,7 @@
     <top>
         <AnchorPane prefHeight="68.0" prefWidth="1102.0" style="-fx-background-color: #dbefe1;" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fx:id="imLogo" fitHeight="55.0" fitWidth="93.0" layoutX="100.0" layoutY="9.0" onMouseClicked="#navigateToHome" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                <ImageView fx:id="imLogo" fitHeight="55.0" fitWidth="93.0" layoutX="100.0" layoutY="9.0" onMouseClicked="#navigateToHomee" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
                         <Image url="@image/logo_final-removebg-preview.png" />
                     </image>
@@ -131,11 +75,16 @@
                         <Image url="@image/setting-removebg-preview.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="29.0" fitWidth="21.0" layoutX="1014.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="stats" fitHeight="34.0" fitWidth="35.0" layoutX="959.0" layoutY="20.0" onMouseClicked="#navigateTostats" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@image/notification-bell.png" />
+                        <Image url="@image/statistiques.png" />
                     </image>
                 </ImageView>
+            <ImageView fx:id="tri" fitHeight="29.0" fitWidth="33.0" layoutX="1004.0" layoutY="22.0" onMouseClicked="#navigateTopie" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/trier-par-ordre-decroissant.png" />
+               </image>
+            </ImageView>
             </children>
         </AnchorPane>
     </top>
@@ -143,9 +92,7 @@
         <AnchorPane prefHeight="610.0" prefWidth="815.0" style="-fx-background-color: #f8f8f8; -fx-border-width: 0;" BorderPane.alignment="CENTER">
             <children>
                 <TextField fx:id="anSearch" layoutX="22.0" layoutY="13.0" prefHeight="41.0" prefWidth="749.0" promptText="Search by name" style="-fx-background-color: transparent; -fx-border-color: #398c3e; -fx-border-width: 0px 0px 2px 0px;" />
-                <ImageView fx:id="idadd" fitHeight="31.0" fitWidth="22.0" layoutX="742.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true"
-                           onMouseClicked="#handleAddArticleClick"
-                >
+                <ImageView fx:id="idadd" fitHeight="31.0" fitWidth="22.0" layoutX="742.0" layoutY="23.0" onMouseClicked="#handleAddArticleClick" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@image/plus.png" />
                     </image>
@@ -161,42 +108,42 @@
                                             <children>
                                                 <HBox fx:id="headerhb" prefHeight="28.0" prefWidth="725.0" style="-fx-background-color: #398c3e;">
                                                     <children>
-                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="112.0" text="id category">
+                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="74.0" text="id category">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="97.0" text="url image">
+                                                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="142.0" text="Image">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label alignment="TOP_LEFT" layoutX="182.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="nom ">
+                                                        <Label alignment="TOP_LEFT" layoutX="182.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="Name">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                          <Label alignment="TOP_LEFT" layoutX="220.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="prix ">
+                                          <Label alignment="TOP_LEFT" layoutX="220.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="Price">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="TOP_LEFT" layoutX="282.0" layoutY="10.0" prefHeight="18.0" prefWidth="94.0" text="description">
+                                          <Label alignment="TOP_LEFT" layoutX="282.0" layoutY="10.0" prefHeight="18.0" prefWidth="94.0" text="Description">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="TOP_LEFT" layoutX="344.0" layoutY="10.0" prefHeight="18.0" prefWidth="94.0" text="statut">
+                                          <Label alignment="TOP_LEFT" layoutX="344.0" layoutY="10.0" prefHeight="18.0" prefWidth="86.0" text="status">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="TOP_LEFT" layoutX="439.0" layoutY="10.0" prefHeight="18.0" prefWidth="59.0" text="quantite">
+                                          <Label alignment="TOP_LEFT" layoutX="439.0" layoutY="10.0" prefHeight="18.0" prefWidth="69.0" text="quantity">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="TOP_LEFT" layoutX="533.0" layoutY="10.0" prefHeight="18.0" prefWidth="90.0" text="created at ">
+                                          <Label alignment="TOP_LEFT" layoutX="533.0" layoutY="10.0" prefHeight="18.0" prefWidth="90.0" text="Created At">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
@@ -211,17 +158,13 @@
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label fx:id="idim" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="112.0" text="urlimage">
+                                          <ImageView fx:id="imgart" fitHeight="131.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true" />
+                                                        <Label fx:id="idnom" alignment="TOP_LEFT" layoutX="168.0" layoutY="10.0" prefHeight="18.0" prefWidth="61.0" text="nom">
                                                             <font>
                                                                 <Font name="Bodoni MT" size="14.0" />
                                                             </font>
                                                         </Label>
-                                                        <Label fx:id="idnom" alignment="TOP_LEFT" layoutX="168.0" layoutY="10.0" prefHeight="18.0" prefWidth="70.0" text="nom">
-                                                            <font>
-                                                                <Font name="Bodoni MT" size="14.0" />
-                                                            </font>
-                                                        </Label>
-                                          <Label fx:id="idprix" alignment="TOP_LEFT" layoutX="196.0" layoutY="10.0" prefHeight="18.0" prefWidth="70.0" text="prix">
+                                          <Label fx:id="idprix" alignment="TOP_LEFT" layoutX="196.0" layoutY="10.0" prefHeight="18.0" prefWidth="65.0" text="prix">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
@@ -231,17 +174,17 @@
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="idquant" alignment="TOP_LEFT" layoutX="337.0" layoutY="10.0" prefHeight="18.0" prefWidth="96.0" text="quantite">
+                                          <Label fx:id="idquant" alignment="TOP_LEFT" layoutX="337.0" layoutY="10.0" prefHeight="18.0" prefWidth="87.0" text="quantite">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="idstatut" alignment="TOP_LEFT" layoutX="428.0" layoutY="10.0" prefHeight="18.0" prefWidth="74.0" text="statu">
+                                          <Label fx:id="idstatut" alignment="TOP_LEFT" layoutX="428.0" layoutY="10.0" prefHeight="18.0" prefWidth="68.0" text="statu">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="idcreated" alignment="TOP_LEFT" layoutX="524.0" layoutY="10.0" prefHeight="18.0" prefWidth="82.0" text="createdat">
+                                          <Label fx:id="idcreated" alignment="TOP_LEFT" layoutX="524.0" layoutY="10.0" prefHeight="18.0" prefWidth="92.0" text="createdat">
                                              <font>
                                                 <Font name="Bodoni MT" size="14.0" />
                                              </font>

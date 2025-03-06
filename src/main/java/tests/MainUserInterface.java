@@ -33,6 +33,8 @@ public class MainUserInterface extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/SignUp.fxml"));
 
 
+
+
         try {
             Parent root =loader.load();
             Scene scene = new Scene(root);

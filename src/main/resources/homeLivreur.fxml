@@ -11,7 +11,9 @@
     <left>
         <AnchorPane prefHeight="599.0" prefWidth="250.0" style="-fx-background-color: #dbefe1;" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane fx:id="anAvdeliveries" layoutX="-1.0" layoutY="54.0" onMouseClicked="#navigateToAvailableDelivry" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="286.0" style="-fx-cursor: hand;">
+
+                <AnchorPane fx:id="anAvdeliveries" layoutX="-1.0" layoutY="54.0" onMouseClicked="#navigateToAvailableDeliveries" onMouseEntered="#hoverEffect" onMouseExited="#normalEffect" prefHeight="45.0" prefWidth="286.0" style="-fx-cursor: hand;">
+
                     <children>
                         <Text fill="#398c3e" layoutX="64.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Deliveries ">
                             <font>
@@ -89,7 +91,9 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f8f8f8; -fx-border-width: 0;" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane fx:id="anAvdeliveriesMain" layoutX="35.0" layoutY="218.0" onMouseClicked="#navigateToAvailableDelivry" prefHeight="134.0" prefWidth="357.0" style="-fx-background-color: white; -fx-border-color: #398c3e; -fx-border-radius: 10px; -fx-cursor: hand;">
+
+                <AnchorPane fx:id="anAvdeliveriesMain" layoutX="35.0" layoutY="218.0" onMouseClicked="#navigateToAvailableDeliveries" prefHeight="134.0" prefWidth="357.0" style="-fx-background-color: white; -fx-border-color: #398c3e; -fx-border-radius: 10px; -fx-cursor: hand;">
+
                     <children>
                         <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="155.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>

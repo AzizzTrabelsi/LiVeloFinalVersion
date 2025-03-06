@@ -5,10 +5,7 @@ import models.*;
 import utils.MyDatabase;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CrudCommande implements interfaces.IServiceCrud<Commande> {
     Connection conn= MyDatabase.getInstance().getConnection();
@@ -409,6 +406,29 @@ public class CrudCommande implements interfaces.IServiceCrud<Commande> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public Map<String, Integer> getOrderStatistics(int userId) {
+        Map<String, Integer> orderStats = new HashMap<>();
+
+        String query = "SELECT a.nom, COUNT(ac.idArticle) AS order_count " +
+                "FROM article a " +
+                "LEFT JOIN articlecommande ac ON a.id_article = ac.idArticle " +
+                "WHERE a.created_by = ? " +  // Filtrer par le partenaire connecté
+                "GROUP BY a.nom";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                orderStats.put(rs.getString("nom"), rs.getInt("order_count"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return orderStats;
     }
 
 }

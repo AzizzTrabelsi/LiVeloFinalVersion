@@ -15,17 +15,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import models.*;
 import services.*;
+
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
+
 import java.util.Date;
+
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class AvailableDeliveries implements Initializable {
+
 
 
 
@@ -37,6 +42,7 @@ public class AvailableDeliveries implements Initializable {
 
     @FXML
     private VBox ordersContainer;
+
 
     private int userId;
     private final User user = new User();
@@ -58,6 +64,7 @@ public class AvailableDeliveries implements Initializable {
     void getUser(){
         this.userId=crudAvis.getUser().getId();
     }
+
     @FXML
     private void navigerVersHomeLivreur() {
         try {
@@ -141,6 +148,7 @@ public class AvailableDeliveries implements Initializable {
         alert.showAndWait();
 
         loadAvailableOrders(); // Rafraîchir la liste
+
         user.setId(userId );
         Facture f  = crudFacture.getByCommandID(commande.getId_Commande());
 
@@ -161,6 +169,7 @@ public class AvailableDeliveries implements Initializable {
             e.printStackTrace();
         }
     }
+
 
 
 

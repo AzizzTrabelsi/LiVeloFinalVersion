@@ -48,6 +48,31 @@ public class CrudArticle implements IServiceCrud<Article> {
         }
         return articles;
     }
+    public void incrementNbViews(int id_article) {
+        String query = "UPDATE article SET nbViews = nbViews + 1 WHERE id_article = ?";
+
+        // Utilisation de try-with-resources pour s'assurer que la connexion et la statement sont fermées après utilisation
+        try ( // Connexion à la base de données
+             PreparedStatement statement = conn.prepareStatement(query)) {  // Préparer la requête
+
+            // Passer l'ID de l'article dans la requête
+            statement.setInt(1, id_article);
+
+            // Exécuter la requête de mise à jour
+            int rowsUpdated = statement.executeUpdate();  // Mettre à jour la table
+
+            // Vérifier si la mise à jour a été effectuée
+            if (rowsUpdated > 0) {
+                System.out.println("Le nombre de vues a été mis à jour pour l'article avec l'ID : " + id_article);
+            } else {
+                System.err.println("Aucun article trouvé avec l'ID : " + id_article);
+            }
+        } catch (SQLException e) {
+            // Afficher une erreur en cas d'exception
+            e.printStackTrace();
+        }
+    }
+
 
 
     @Override
@@ -441,6 +466,33 @@ public class CrudArticle implements IServiceCrud<Article> {
             }
         }
 
+        return articles;
+    }
+    public List<Article> getAllByPartner(int idPartner){
+        List<Article> articles = new ArrayList<>();
+        String query = "SELECT * FROM `article` WHERE `created_by` = ?";
+        try(PreparedStatement stmt= conn.prepareStatement(query)) {
+            stmt.setInt(1, idPartner);
+            System.out.println("idpartner get all partner article"+idPartner);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Article article = new Article(rs.getInt("id_article")
+                        ,rs.getString("url_image")
+                        ,null
+                        ,rs.getString("nom")
+                        ,rs.getFloat("prix")
+                        ,rs.getString("description")
+                        ,rs.getInt("created_by")
+                        ,rs.getInt("quantite")
+                        ,statut_article.valueOf(rs.getString("Statut"))
+                        ,rs.getDate("createdAt")
+                        ,rs.getInt("nbViews")
+                );
+                articles.add(article);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return articles;
     }
 

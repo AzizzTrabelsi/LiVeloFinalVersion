@@ -57,6 +57,21 @@ public class HomePartner {
         }
     }
     @FXML
+    private void navigateToStatistics() {
+        try {
+            // Load the SignUp.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/StatisticsPartner.fxml"));
+            Scene signUpScene = new Scene(loader.load());
+
+            Stage stage = (Stage) imLogo.getScene().getWindow();
+            stage.setScene(signUpScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading Statistics.fxml.");
+        }
+    }
+    @FXML
     private void navigateToGestionCat() {
         try {
             // Load the SignUp.fxml file
